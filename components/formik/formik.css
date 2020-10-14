@@ -1,0 +1,24 @@
+label {
+  display: flex;
+  margin-bottom: 10px;
+}
+input {
+  display: block;
+  width: 200px;
+  padding: 10px;
+  font-size: 18px;
+  background-color: #efefef;
+  outline: none;
+  color: #222;
+  outline: none;
+  border: none;
+  border-radius: 3px;
+}
+
+.form-control {
+  margin-top: 20px;
+}
+
+.error {
+  color: red;
+}

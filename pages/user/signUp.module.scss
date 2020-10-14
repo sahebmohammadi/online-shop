@@ -1,0 +1,23 @@
+.container {
+  position: relative;
+  width: 1365.3px;
+  height: 768px;
+  margin: 0;
+  padding: 0;
+  .signupimage {
+    width: 100%;
+    height: auto;
+  }
+  .form_bg {
+    width: 774px;
+    height: 768px;
+    box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.1);
+    background-color: #052971;
+    z-index: 2;
+    position: absolute;
+    top: 0;
+    right: 0;
+    border-radius: 300px 0;
+    
+  }
+}

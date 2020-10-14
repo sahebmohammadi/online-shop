@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="14" height="22" viewBox="0 0 14 22">
+    <defs>
+        <style>
+            .cls-1{fill:#979797}
+        </style>
+    </defs>
+    <g id="Layer" transform="translate(-5 -1)">
+        <g id="Vrstva_13">
+            <g id="Vrstva_178">
+                <path id="Path_184" d="M16 1H8a3 3 0 0 0-3 3v16a3 3 0 0 0 3 3h8a3 3 0 0 0 3-3V4a3 3 0 0 0-3-3zm1 19a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1z" class="cls-1"/>
+            </g>
+            <g id="Vrstva_177">
+                <circle id="Ellipse_13" cx="1" cy="1" r="1" class="cls-1" transform="translate(10.62 17)"/>
+            </g>
+        </g>
+    </g>
+</svg>
