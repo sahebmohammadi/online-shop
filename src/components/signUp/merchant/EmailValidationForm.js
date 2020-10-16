@@ -4,14 +4,14 @@ import * as Yup from 'yup';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import * as userService from '../../../services/userService';
-import * as verifyEmail from '../../../services/verifyEmail';
-import classes from './EmailValidation.module.scss';
-import * as constants from '../../../constants';
+import {register} from '../../../../services/merchantSignUpService';
+import {verifyEmail} from '../../../../services/verifyEmail';
+import classes from './EmailValidationForm.module.scss';
+import * as constants from '../../../../constants';
 import { useRouter } from 'next/router';
 
 //  Component :
-const EmailValidation = (props) => {
+const EmailValidationForm = (props) => {
   // Route
   const router = useRouter();
   // State
@@ -35,7 +35,7 @@ const EmailValidation = (props) => {
     // CALL THE SERVER TO VERIFY EMAIL
     const obj = { email: merchant.email, code: values.code };
     try {
-      const { data: response } = await verifyEmail.verify(obj);
+      const { data: response } = await verifyEmail(obj);
       console.log('response : ', response);
       toast.success(response.message);
       // Save Token :
@@ -53,7 +53,7 @@ const EmailValidation = (props) => {
     setTime(120);
     // CALL THE SERVER FOR RESEND CODE
     try {
-      const { data } = await userService.register(merchant);
+      const { data } = await register(merchant);
       console.log('data : ', data);
       toast.success(data.message);
       // const { data: userData } = data;
@@ -122,4 +122,4 @@ const EmailValidation = (props) => {
   );
 };
 
-export default EmailValidation;
+export default EmailValidationForm;

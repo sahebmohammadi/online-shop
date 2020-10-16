@@ -4,6 +4,6 @@ import { object } from 'yup';
 
 const apiEndPoint = apiUrl + '/merchant/auth/verify';
 
-export const verify = (user) => {
+export const verifyEmail = (user) => {
   return http.post(apiEndPoint, { email: user.email, code: user.code });
 };

@@ -1,6 +1,6 @@
 // imports
-import MerchantLogin from '../../components/login/merchant/MerchantLogin';
-import { ToastContainer } from 'react-toastify';
+import MerchantLogin from '../../src/components/login/merchant/MerchantLogin';
+
 import classes from './SignUp.module.scss';
 
 const Login = () => {
@@ -9,7 +9,6 @@ const Login = () => {
   // JSX Return
   return (
     <>
-      <ToastContainer />
       <div className={classes.container}>
         <div className={classes.logoKooche}>
           <img src="/images/logo-kooche.svg" alt="logo-kooche" />

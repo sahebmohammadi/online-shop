@@ -1,10 +1,10 @@
 // importing Components
-import EmailPassword from "../../components/SignUp/merchant/EmaiPassword";
-import EmailValidation from "../../components/SignUp/merchant/EmailValidation";
-import { ToastContainer } from "react-toastify";
+import SignUpForm from '../../src/components/signUp/merchant/SignUpForm';
+import EmailValidationForm from '../../src/components/signUp/merchant/EmailValidationForm';
+
 // importing Styles
-import classes from "./SignUp.module.scss";
-import { useState } from "react";
+import classes from './SignUp.module.scss';
+import { useState } from 'react';
 
 const SginUp = () => {
   // states
@@ -13,16 +13,16 @@ const SginUp = () => {
   // JSX Return
   return (
     <>
-      <ToastContainer />
       <div className={classes.container}>
-        <div className = {classes.logoKooche}>
+      
+        <div className={classes.logoKooche}>
           <img src="/images/logo-kooche.svg" alt="logo-kooche" />
         </div>
         <div className={classes.form_bg}>
           {!step ? (
-            <EmailPassword setMerchant={setMerchant} setStep={setStep} />
+            <SignUpForm setMerchant={setMerchant} setStep={setStep} />
           ) : (
-            <EmailValidation merchant={merchant} />
+            <EmailValidationForm merchant={merchant} />
           )}
         </div>
       </div>
