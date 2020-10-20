@@ -6,7 +6,7 @@ import EmailValidationForm from '../../src/components/signUp/merchant/EmailValid
 import classes from './SignUp.module.scss';
 import { useState } from 'react';
 
-const SginUp = () => {
+const SignUp = () => {
   // states
   const [step, setStep] = useState(false);
   const [merchant, setMerchant] = useState({});
@@ -14,7 +14,6 @@ const SginUp = () => {
   return (
     <>
       <div className={classes.container}>
-      
         <div className={classes.logoKooche}>
           <img src="/images/logo-kooche.svg" alt="logo-kooche" />
         </div>
@@ -30,4 +29,4 @@ const SginUp = () => {
   );
 };
 
-export default SginUp;
+export default SignUp;

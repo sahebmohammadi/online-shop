@@ -1,14 +1,10 @@
-// importing Components
-import PhoneNumber from "../../components/SignUp/PhoneNumberForm/PhoneNumber";
-import CodeValidation from "../../components/SignUp/CodeVerification/CodeVerification";
-// importing Styles
-import classes from "./SignUp.module.scss";
-import { useState } from "react";
+import PhoneNumber from '../../components/SignUp/PhoneNumberForm/PhoneNumber';
+import CodeValidation from '../../components/SignUp/CodeVerification/CodeVerification';
+import classes from './SignUp.module.scss';
+import { useState } from 'react';
 
-const SginUp = () => {
-  // states
+const SignUp = () => {
   const [step, setStep] = useState(false);
-  // JSX Return
   return (
     <>
       <div className={classes.container}>
@@ -17,13 +13,12 @@ const SginUp = () => {
           src="/images/sign-merchant-1.png"
           alt="signup-image"
         />
-  
         <div className={classes.form_bg}>
-          {!step ? <PhoneNumber setStep = {setStep} /> : <CodeValidation />}
+          {!step ? <PhoneNumber setStep={setStep} /> : <CodeValidation />}
         </div>
       </div>
     </>
   );
 };
 
-export default SginUp;
+export default SignUp;
