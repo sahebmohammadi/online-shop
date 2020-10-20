@@ -1,10 +1,9 @@
 import React from 'react';
-import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import ToastHint from './Toast';
 import FormikContainer from './Form/FormikContainer';
-// Styling
+
 const useStyles = makeStyles((theme) => ({
   content: {
     backgroundColor: '#fff',
@@ -25,11 +24,10 @@ const Content = () => {
     <main className={classes.content}>
       <Grid container>
         <Grid item xs={12}>
-            <ToastHint/>
+          <ToastHint />
         </Grid>
         <Grid item xs={12} container>
-            <FormikContainer/>
-          {/* <Paper className={classes.paper}>From</Paper> */}
+          <FormikContainer />
         </Grid>
       </Grid>
     </main>

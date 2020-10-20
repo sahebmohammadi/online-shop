@@ -1,15 +1,13 @@
 import React from 'react';
-import Content from '../Content';
-import AppBar from '../appBar/AppBar';
+import AppBar from './appBar/AppBar';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
-import Toolbar from '@material-ui/core/Toolbar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import IconButton from '@material-ui/core/IconButton';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import DrawerList from './drawer/DrawerList';
 
-import DrawerList from './DrawerList';
 const drawerWidth = 230;
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -100,14 +98,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function MiniDrawer() {
+const Layout = ({ children }) => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
-
   const handleDrawerOpen = () => {
     setOpen(true);
   };
-
   const handleDrawerClose = () => {
     setOpen(false);
   };
@@ -116,7 +112,6 @@ export default function MiniDrawer() {
     <div className={classes.root}>
       <CssBaseline />
       <AppBar open={open} handleDrawerOpen={handleDrawerOpen} />
-
       <Drawer
         anchor="right"
         variant="permanent"
@@ -140,7 +135,9 @@ export default function MiniDrawer() {
         <DrawerList open={open} />
       </Drawer>
       <div className={classes.toolbar} />
-      <Content/>
+      {children}
     </div>
   );
-}
+};
+
+export default Layout;
