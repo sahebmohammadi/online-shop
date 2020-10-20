@@ -11,7 +11,6 @@ const BirthDay = ({ name, label, setBirthday }) => {
     setValue(value);
     const formattedDate = `${value.jYear()}/${value.jMonth() + 1}/${value.jDate()}`;
     setBirthday(formattedDate);
-    console.log(formattedDate);
   };
   return (
     <div className={classes.formControl}>
@@ -23,7 +22,7 @@ const BirthDay = ({ name, label, setBirthday }) => {
         showTodayButton={false}
         isGregorian={false}
         value={value}
-        onChange={(value)=>handleChange(value)}
+        onChange={(value) => handleChange(value)}
       />
     </div>
   );

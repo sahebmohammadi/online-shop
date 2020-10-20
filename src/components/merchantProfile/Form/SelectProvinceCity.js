@@ -5,28 +5,28 @@ import Select from 'react-select';
 import classes from './selectProvinceCity.module.scss';
 import Grid from '@material-ui/core/Grid';
 import * as constants from '../../../../constants';
-const SelectProvinceCity = ({setProvince,setCity}) => {
-  //  Constants
-  const { merchantForm } = constants.MerchantProfile;
-  // state
+import { apiUrl } from '../../../../config.json';
+const SelectProvinceCity = ({ setProvince, setCity }) => {
   const [selectStates, setSelectStates] = useState([]);
   const [selectedState, setSelectedState] = useState({});
   const [selectCities, setSelectCities] = useState([]);
   const [selectedCity, setSelectedCity] = useState({});
   const [stateId, setStateId] = useState();
+
+  const { merchantForm } = constants.MerchantProfile;
+
   useEffect(() => {
     geState();
   }, []);
   useEffect(() => {
     getCity(stateId);
   }, [stateId]);
-  // get State
+
   const geState = async () => {
     try {
-      const res = await axios.get('http://api.decooj.com:80/api/state/get');
+      const res = await axios.get(`${apiUrl}/state/get`);
       const { data: stateData } = res.data;
       const { state } = stateData;
-      console.log('states', state);
       const options = state.map((d) => ({
         value: d.id,
         label: d.name,
@@ -36,18 +36,14 @@ const SelectProvinceCity = ({setProvince,setCity}) => {
       console.log(error);
     }
   };
-  // get City
 
   const getCity = async (stateId) => {
     if (stateId) {
       try {
-        const res = await axios.get(
-          `http://api.decooj.com:80/api/city/get?state_id=${stateId}`,
-        );
+        const res = await axios.get(`${apiUrl}/city/get?state_id=${stateId}`);
         const { data: cityData } = res.data;
-
         const { city } = cityData;
-        console.log('cities', city);
+
         const options = city.map((d) => ({
           value: d.id,
           label: d.name,
@@ -71,18 +67,17 @@ const SelectProvinceCity = ({setProvince,setCity}) => {
     console.log('selected City', e);
     setCity(e);
     // setStateId(e.value);
-    // console.log(e.value);
   };
-  // reac-select Styles
+
   const style = {
     control: (base) => ({
       ...base,
       border: 0,
-      outline : "none",
-      borderRadius : 0,
+      outline: 'none',
+      borderRadius: 0,
       width: '231px',
       height: '37px',
-      backgroundColor :"none",
+      backgroundColor: 'none',
       // This line disable the blue border
       boxShadow: 'none',
     }),
