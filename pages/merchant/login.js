@@ -4,9 +4,6 @@ import MerchantLogin from '../../src/components/login/merchant/MerchantLogin';
 import classes from './SignUp.module.scss';
 
 const Login = () => {
-  // states
-
-  // JSX Return
   return (
     <>
       <div className={classes.container}>
