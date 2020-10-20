@@ -1,10 +1,10 @@
-import PhoneNumber from '../../components/SignUp/PhoneNumberForm/PhoneNumber';
-import CodeValidation from '../../components/SignUp/CodeVerification/CodeVerification';
+// import PhoneNumber from '../../components/signUp/PhoneNumberForm/PhoneNumber';
+// import CodeValidation from '../../components/signUp/CodeVerification/CodeVerification';
 import classes from './SignUp.module.scss';
 import { useState } from 'react';
 
 const SignUp = () => {
-  const [step, setStep] = useState(false);
+  // const [step, setStep] = useState(false);
   return (
     <>
       <div className={classes.container}>
@@ -14,7 +14,7 @@ const SignUp = () => {
           alt="signup-image"
         />
         <div className={classes.form_bg}>
-          {!step ? <PhoneNumber setStep={setStep} /> : <CodeValidation />}
+          {/* {!step ? <PhoneNumber setStep={setStep} /> : <CodeValidation />} */}
         </div>
       </div>
     </>
