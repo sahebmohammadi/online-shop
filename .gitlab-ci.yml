@@ -1,0 +1,11 @@
+stages:
+  - deploy
+
+deploy:
+  image: node
+  stage: deploy
+  script:
+    - npm run export
+    - ls ./out
+  only:
+    - master
