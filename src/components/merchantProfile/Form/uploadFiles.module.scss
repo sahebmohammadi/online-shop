@@ -1,0 +1,23 @@
+.formControl {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content:space-between;
+  margin-top: 30px;
+  width: 95%;
+  direction: rtl;
+  label {
+    color: #122f61;
+    font: 'Shabnam' normal;
+    cursor: pointer;
+    display: flex;
+    width: 100px;
+    position: relative;
+  }
+  .uploadContainer {
+    width: 70%;
+    border-radius: 10px;
+    border: none;
+    box-sizing: border-box;
+  }
+}

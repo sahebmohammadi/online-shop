@@ -7,6 +7,9 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import theme from '../src/theme';
 import 'react-toastify/dist/ReactToastify.min.css';
 import { ToastContainer } from 'react-toastify';
+
+
+export const UserContext = React.createContext();
 const App = (props) => {
   const { Component, pageProps } = props;
 
@@ -28,7 +31,7 @@ const App = (props) => {
         />
       </Head>
       <ThemeProvider theme={theme}>
-      <ToastContainer/>
+        <ToastContainer />
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
         <Component {...pageProps} />
@@ -41,4 +44,3 @@ App.propTypes = {
   Component: PropTypes.elementType.isRequired,
   pageProps: PropTypes.object.isRequired,
 };
-

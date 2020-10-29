@@ -1,7 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="21.896" height="19.119" viewBox="0 0 21.896 19.119">
-    <g>
-        <g>
-            <path fill="#052971" d="M21.74 7.5h-3.95a.85.85 0 0 0-.06-.17L15.23 3a1 1 0 1 0-1.73 1l2 3.5H8.71l2-3.5A1 1 0 1 0 9 3L6.5 7.33a.85.85 0 0 0-.06.17H2.26A1.2 1.2 0 0 0 1.09 9L4 20.59a1.21 1.21 0 0 0 1.17.91h13.67a1.21 1.21 0 0 0 1.16-.91L22.91 9a1.2 1.2 0 0 0-1.17-1.5zm-3.52 12H5.78l-2.5-10h17.44z" transform="translate(-1.052 -2.381)"/>
-        </g>
+<svg id="ic-ecommerce-basket" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <rect id="Rectangle_108" data-name="Rectangle 108" width="24" height="24" fill="none"/>
+  <g id="Layer" transform="translate(0 0.059)">
+    <g id="Vrstva_173" data-name="Vrstva 173">
+      <path id="Path_193" data-name="Path 193" d="M21.74,7.5H17.79a.85.85,0,0,0-.06-.17L15.23,3A1,1,0,1,0,13.5,4l2,3.5H8.71l2-3.5A1,1,0,1,0,9,3L6.5,7.33a.85.85,0,0,0-.06.17H2.26A1.2,1.2,0,0,0,1.09,9L4,20.59a1.21,1.21,0,0,0,1.17.91H18.84A1.21,1.21,0,0,0,20,20.59L22.91,9a1.2,1.2,0,0,0-1.17-1.5Zm-3.52,12H5.78l-2.5-10H20.72Z" fill="#052971"/>
     </g>
+  </g>
 </svg>

@@ -15,7 +15,9 @@ import Badge from '@material-ui/core/Badge';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import MoreIcon from '@material-ui/icons/MoreVert';
-
+import AddRoundedIcon from '@material-ui/icons/AddRounded';
+import Link from 'next/link';
+import Avatar from '@material-ui/core/Avatar';
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -72,6 +74,18 @@ const useStyles = makeStyles((theme) => ({
       width: 'auto',
     },
   },
+  addingProduct: {
+    // width: '240px !important',
+    cursor: 'pointer',
+    padding: '15px 5px',
+    height: '39px',
+    borderRadius: '10px',
+    boxShadow: '0 10px 25px 0 rgba(0, 0, 0, 0.05)',
+    border: 'solid 0.5px #e8e8e8',
+    backgroundColor: '#052971',
+    display: 'flex',
+    alignItems: 'center',
+  },
   searchIcon: {
     right: '20px',
     height: '100%',
@@ -99,7 +113,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     justifyContent: 'space-between',
     // backgroundColor: "red",
-    width: '25%',
+    width: '39%',
     display: 'none',
     [theme.breakpoints.up('md')]: {
       display: 'flex',
@@ -115,6 +129,7 @@ const useStyles = makeStyles((theme) => ({
 
 const drawerWidth = 240;
 export default function DenseAppBar(props) {
+  const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -167,20 +182,22 @@ export default function DenseAppBar(props) {
       onClose={handleMobileMenuClose}
     >
       <MenuItem color="primary">
-        <IconButton aria-label="show 4 new mails" color="primary">
-          <Badge badgeContent={4} color="error">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p color="primary">Messages</p>
+        <Link href="#">
+          <div className={classes.addingProduct}>
+            <AddRoundedIcon style={{ color: "#ffffff" }} />
+            <Typography style={{ fontSize: '15px', color: '#fff' }}>
+              اضافه کردن محصول
+            </Typography>
+          </div>
+        </Link>
       </MenuItem>
       <MenuItem>
-        <IconButton aria-label="show 11 new notifications" color="primary">
-          <Badge badgeContent={11} color="error">
+        <IconButton color="primary">
+          <Badge color="error">
             <NotificationsIcon />
           </Badge>
         </IconButton>
-        <p>Notifications</p>
+        {/* <p>Notifications</p> */}
       </MenuItem>
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
@@ -191,12 +208,12 @@ export default function DenseAppBar(props) {
         >
           <AccountCircle />
         </IconButton>
-        <p>Profile</p>
+        <p>پروفایل</p>
       </MenuItem>
     </Menu>
   );
 
-  const classes = useStyles();
+
 
   const { open, handleDrawerOpen } = props;
   return (
@@ -235,13 +252,18 @@ export default function DenseAppBar(props) {
 
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
-              <IconButton aria-label="show 4 new mails" color="inherit">
-                <Badge badgeContent={4} color="error">
-                  <MailIcon color="primary" />
-                </Badge>
-              </IconButton>
-              <IconButton aria-label="show 17 new notifications" color="inherit">
-                <Badge badgeContent={17} color="error">
+              {/* adding new product */}
+              <Link href="/">
+                <div className={classes.addingProduct}>
+                  <AddRoundedIcon style={{ color: "#ffffff" }} />
+                  <Typography style={{ fontSize: '15px', color: '#fff' }}>
+                    اضافه کردن محصول
+                  </Typography>
+                </div>
+              </Link>
+
+              <IconButton aria-label="" color="inherit">
+                <Badge color="error">
                   <NotificationsIcon color="primary" />
                 </Badge>
               </IconButton>
@@ -253,7 +275,7 @@ export default function DenseAppBar(props) {
                 onClick={handleProfileMenuOpen}
                 color="inherit"
               >
-                <AccountCircle color="primary" />
+                <Avatar></Avatar>
               </IconButton>
               <Typography>راهنما</Typography>
             </div>

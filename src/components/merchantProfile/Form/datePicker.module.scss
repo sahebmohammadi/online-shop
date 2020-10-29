@@ -3,7 +3,7 @@
     flex-wrap: wrap;
     margin-top: 30px;
     text-align: center;
-    width: 70%;
+    width: 100%;
     flex-direction: row;
     direction: rtl;
     label {
@@ -43,7 +43,7 @@
         outline: none;
       }
     }
-  
+
     .validationError {
       display: flex;
       margin: 3px 141px 0 0;
@@ -55,4 +55,3 @@
       color: #e4464b;
     }
   }
-  

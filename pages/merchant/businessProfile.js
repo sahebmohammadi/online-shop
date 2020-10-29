@@ -1,10 +1,10 @@
 import Layout from '../../src/components/merchantProfile/layout/Layout';
-import Content from '../../src/components/merchantProfile/Content';
+import BusinessForm from '../../src/components/merchantProfile/businessForm/BusinessForm';
 
 const Profile = () => {
   return (
     <Layout>
-      <Content />
+      <BusinessForm />
     </Layout>
   );
 };

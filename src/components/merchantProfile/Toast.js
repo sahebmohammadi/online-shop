@@ -5,7 +5,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Collapse from '@material-ui/core/Collapse';
 import Button from '@material-ui/core/Button';
 import CloseIcon from '@material-ui/icons/Close';
-
+import Link from 'next/link';
 const useStyles = makeStyles((theme) => ({
   root: {
     width: 'auto',
@@ -13,10 +13,15 @@ const useStyles = makeStyles((theme) => ({
       marginTop: theme.spacing(2),
     },
   },
-  closeButton :{
-      display : "flex",
-      alignItems : "flex-start !important",
-  }
+  closeButton: {
+    display: 'flex',
+    alignItems: 'flex-start !important',
+  },
+  hintButton: {
+    backgroundColor: '#ffa500',
+    margin: '5px 52%',
+    width: '167px',
+  },
 }));
 
 const ToastHint = () => {
@@ -27,7 +32,7 @@ const ToastHint = () => {
     <div className={classes.root}>
       <Collapse in={open}>
         <Alert
-        className = {classes.closeButton}
+          className={classes.closeButton}
           action={
             <IconButton
               aria-label="close"
@@ -37,11 +42,23 @@ const ToastHint = () => {
                 setOpen(false);
               }}
             >
-              <CloseIcon  fontSize="inherit" />
+              <CloseIcon fontSize="inherit" />
             </IconButton>
           }
         >
-      لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد، کتابهای زیادی در شصت و سه درصد گذشته حال و آینده، شناخت فراوان جامعه و متخصصان را می طلبد، تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی، و فرهنگ پیشرو در زبان فارسی ایجاد کرد، در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها، و شرایط سخت تایپ به پایان رسد و زمان مورد نیاز شامل حروفچینی دستاوردهای اصلی، و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.
+          {/* لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد، کتابهای زیادی در شصت و سه درصد گذشته حال و آینده، شناخت فراوان جامعه و متخصصان را می طلبد، تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی، و فرهنگ پیشرو در زبان فارسی ایجاد کرد، در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها، و شرایط سخت تایپ به پایان رسد و زمان مورد نیاز شامل حروفچینی دستاوردهای اصلی، و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد. */}
+          اگر هنوز اطلاعات تجاری را تکمیل نکرده اید روی لینک زیر کلیک کنید تا وارد صفحه
+          مربوط به اطلاعات تجاری شوید.
+          <p>
+            {' '}
+            <Link href="/merchant/businessProfile">
+              <a>
+                <Button className={classes.hintButton} variant="contained">
+                  تکمیل اطلاعات تجاری
+                </Button>
+              </a>
+            </Link>
+          </p>
         </Alert>
       </Collapse>
       <Button
@@ -51,7 +68,7 @@ const ToastHint = () => {
           setOpen(true);
         }}
       >
-       مشاهده
+        راهنما
       </Button>
     </div>
   );
