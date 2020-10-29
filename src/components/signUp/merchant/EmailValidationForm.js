@@ -4,8 +4,8 @@ import * as Yup from 'yup';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import {register} from '../../../../services/merchantSignUpService';
-import {verifyEmail} from '../../../../services/verifyEmail';
+import { register } from '../../../../services/merchantSignUpService';
+import { verifyEmail } from '../../../../services/verifyEmail';
 import classes from './EmailValidationForm.module.scss';
 import * as constants from '../../../../constants';
 import { useRouter } from 'next/router';
@@ -40,8 +40,9 @@ const EmailValidationForm = (props) => {
       toast.success(response.message);
       // Save Token :
       const { token, user } = response.data;
-      console.log(token);
-      console.log("user",user);
+      // console.log(token);
+      // console.log('user', user);
+      //
       localStorage.setItem('token', token);
       // Redirect to the profile page
       router.replace('/merchant/profile');

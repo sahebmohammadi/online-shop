@@ -1,26 +1,23 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Formik, Form } from 'formik';
 import styles from './formikContainer.module.scss';
 import * as Yup from 'yup';
 import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import * as constants from '../../../../constants';
 import FormikControl from './FormikControl';
-import { useState } from 'react';
 import DatePicker from './DatePicker';
 import SelectProvinceCity from './SelectProvinceCity';
-import clsx from 'classnames';
+import UploadFiles from './UploadFiles';
+import jwtDecode from 'jwt-decode';
+import { merchantProfileForm } from '../../../../services/merchantProfileService';
+import { toast } from 'react-toastify';
+
 const useStyles = makeStyles((theme) => ({
   paper: {
     width: '100%',
     padding: '100px',
     backgroundColor: 'red',
-  },
-  textField: {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
-    width: '25ch',
   },
 }));
 
@@ -28,9 +25,20 @@ const MerchantForm = () => {
   // states :
   const [birthday, setBirthday] = useState('');
   const [city, setCity] = useState('');
-  const [province, setProvince] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
-
+  const [profileImage, setProfileImage] = useState();
+  const [license, setLicense] = useState();
+  const [merchant, setMerchant] = useState();
+  const [token, setToken] = useState();
+  //usEffect : decode token to get user Id
+  useEffect(() => {
+    try {
+      const jwt = localStorage.getItem('token');
+      setToken(jwt);
+      const merchant = jwtDecode(jwt);
+      setMerchant(merchant);
+    } catch (error) {}
+  }, []);
   //  Form Contants :
   const { error, merchantForm } = constants.MerchantProfile;
   const { forms } = constants;
@@ -45,49 +53,42 @@ const MerchantForm = () => {
     name: '',
     family: '',
     gender: '',
-    national_code: '',
+    nationalCode: '',
     email: '',
     tel: '',
     address: '',
-    postal_code: '',
+    postalCode: '',
     phone: '',
-    user_id: '',
   };
   //  onSubmit
   const onSubmit = async (values) => {
     setIsSubmitted(!isSubmitted);
-    console.log('form data', values);
-    const allValues = { ...values, birthday, city, province };
+    const userId = merchant.sub;
+    const allValues = { ...values, birthday, city, userId, license, profileImage, token };
     // CALL THE SERVER
-    // try {
-    //   const response = await userService.register(values);
-    //   console.log('response ', response);
-    //   const { data } = response;
-    //   console.log('data : ', data);
-    //   toast.success(data.message);
-    //   const { data: userData } = data;
-    //   const { user } = userData;
-    //   console.log(user);
-    //   // Set Merchant
-    //   setMerchant(values);
-    //   // Updating the state of SignUp
-    //   setStep(true);
-    // } catch (ex) {}
+    try {
+      const response = await merchantProfileForm(allValues);
+      const { data } = response;
+      toast.success(data.message);
+    } catch (ex) {}
   };
 
   //  validation schema
   const validationSchema = Yup.object({
     name: Yup.string().required(error.name),
     family: Yup.string().required(error.family),
-    // // birthday: Yup.string().required(error.birthday),
     gender: Yup.string().required(error.gender),
-    national_code: Yup.string().required(error.national_code),
+    nationalCode: Yup.string()
+      .required(error.nationalCode)
+      .matches(/^[0-9]{10}$/, `${error.nationalCodeLength}`),
     email: Yup.string().required(forms.email.enter).email(forms.email.check),
-    tel: Yup.string().required(error.tel),
-    phone: Yup.string().required(error.phone),
-    postal_code: Yup.string().required(error.postal_code),
-    // // province: Yup.string().required(error.province),
-    // // city: Yup.string().required(error.city),
+    tel: Yup.string()
+      .required(error.tel)
+      .matches(/^[0-9]{8}$/, `${error.telLength}`),
+    phone: Yup.string()
+      .required(error.phone)
+      .matches(/^[0-9]{11}$/, `${error.phoneLength}`),
+    postalCode: Yup.string().required(error.postalCode),
     address: Yup.string().required(error.address),
   });
 
@@ -102,8 +103,8 @@ const MerchantForm = () => {
         {(formik) => (
           <Form>
             <Grid item container xs={12}>
+              <p className={styles.formHint}> {merchantForm.personalInfo}</p>
               <Grid item xs={12} md={6}>
-                <p className={styles.formHint}> {MerchantForm.personalInfo}</p>
                 <div className={styles.inputGroup}>
                   <FormikControl
                     control="input"
@@ -131,8 +132,8 @@ const MerchantForm = () => {
                   <FormikControl
                     control="input"
                     type="text"
-                    label={merchantForm.national_code}
-                    name="national_code"
+                    label={merchantForm.nationalCode}
+                    name="nationalCode"
                   />
                   <FormikControl
                     control="input"
@@ -142,8 +143,26 @@ const MerchantForm = () => {
                   />
                 </div>
               </Grid>
-              <Grid item xs={12} md={6}>
-                <Paper className={classes.paper}>From</Paper>
+              <Grid item container xs={12} md={6}>
+                <div
+                  style={{
+                    width: '100%',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    flexDirection: 'column',
+                  }}
+                >
+                  <UploadFiles
+                    label={merchantForm.profileImage}
+                    hint={merchantForm.hintProfileImage}
+                    setUploadedData={setProfileImage}
+                  />
+                  <UploadFiles
+                    label={merchantForm.license}
+                    hint={merchantForm.hintLicense}
+                    setUploadedData={setLicense}
+                  />
+                </div>
               </Grid>
               <p className={styles.formHint}>{merchantForm.callInfo}</p>
               <Grid item xs={12} md={6}>
@@ -168,7 +187,11 @@ const MerchantForm = () => {
               </Grid>
 
               <Grid item container xs={12}>
-                <SelectProvinceCity setProvince={setProvince} setCity={setCity} />
+                <SelectProvinceCity
+                  cityLabel={merchantForm.city}
+                  provinceLabel={merchantForm.province}
+                  setCity={setCity}
+                />
               </Grid>
               <Grid item xs={12}>
                 <div className={styles.inputGroup}>
@@ -184,8 +207,8 @@ const MerchantForm = () => {
                   <FormikControl
                     control="input"
                     type="text"
-                    label={merchantForm.postal_code}
-                    name="postal_code"
+                    label={merchantForm.postalCode}
+                    name="postalCode"
                   />
                 </div>
               </Grid>

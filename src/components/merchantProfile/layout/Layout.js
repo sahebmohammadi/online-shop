@@ -100,7 +100,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Layout = ({ children }) => {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -131,8 +131,7 @@ const Layout = ({ children }) => {
             {open ? <ChevronRightIcon color="primary" /> : null}
           </IconButton>
         </div>
-
-        <DrawerList open={open} />
+        <DrawerList isDrawerOpen={open} />
       </Drawer>
       <div className={classes.toolbar} />
       {children}

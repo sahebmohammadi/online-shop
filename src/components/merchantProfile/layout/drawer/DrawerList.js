@@ -7,11 +7,11 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import Collapse from '@material-ui/core/Collapse';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import StarBorder from '@material-ui/icons/StarBorder';
+import Link from 'next/link';
 // dshboard list items :
 import { drawerListItems, decoojIcons } from './DrawerListItems';
-// styling :
+
+// styling
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
@@ -19,14 +19,19 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
   },
   nested: {
-    paddingLeft: theme.spacing(4),
+    paddingLeft: theme.spacing(10),
   },
   icon: {
     justifyItems: 'center',
   },
+  link: {
+    textDecoration: 'none',
+    fontSize: '12px !important',
+    color: '#004F9D',
+  },
 }));
 // Drawer List
-const DrawerList = (props) => {
+const DrawerList = ({ isDrawerOpen }) => {
   const classes = useStyles();
   const [listItems, setListItems] = React.useState(drawerListItems);
 
@@ -34,10 +39,33 @@ const DrawerList = (props) => {
     let items = [...listItems];
     const index = items.indexOf(item);
     items[index] = { ...items[index] };
-    items[index].open = !items[index].open;
+    items[index].isExpand = !items[index].isExpand;
     setListItems(items);
   };
-
+  const collapseItems = (isExpand, subListItems) => {
+    return (
+      <Collapse in={isExpand} timeout="auto" unmountOnExit>
+        {subListItems ? (
+          <List component="div">
+            {subListItems.map((subItem) => {
+              const { text, id, link } = subItem;
+              return (
+                <React.Fragment key={id}>
+                  <Link href={link}>
+                    <a className={classes.link}>
+                      <ListItem button className={classes.nested}>
+                        <ListItemText primary={text} />
+                      </ListItem>
+                    </a>
+                  </Link>
+                </React.Fragment>
+              );
+            })}
+          </List>
+        ) : null}
+      </Collapse>
+    );
+  };
   return (
     <List style={{ marginTop: '-30px' }}>
       <>
@@ -53,29 +81,19 @@ const DrawerList = (props) => {
       </>
 
       {listItems.map((item) => {
-        const { text, icon, open, id } = item;
-
+        const { text, icon, isExpand, id, subListItems } = item;
         return (
           <React.Fragment key={id}>
             <ListItem
-              style={{ marginTop: '25px' }}
+              style={{ marginTop: '5px' }}
               button
               onClick={() => handleClick(item)}
             >
               {icon && <ListItemIcon>{icon}</ListItemIcon>}
               <ListItemText primary={text} style={{ textAlign: 'right' }} />
-              {open ? <ExpandLess /> : <ExpandMore />}
+              {isExpand ? <ExpandLess /> : <ExpandMore />}
             </ListItem>
-            <Collapse in={open} timeout="auto" unmountOnExit>
-              <List component="div" disablePadding>
-                <ListItem button className={classes.nested}>
-                  <ListItemIcon>
-                    <StarBorder color="primary" />
-                  </ListItemIcon>
-                  <ListItemText primary="آیتم 1" />
-                </ListItem>
-              </List>
-            </Collapse>
+            {isDrawerOpen ? collapseItems(isExpand, subListItems) : null}
           </React.Fragment>
         );
       })}

@@ -4,16 +4,13 @@ import axios from 'axios';
 import Select from 'react-select';
 import classes from './selectProvinceCity.module.scss';
 import Grid from '@material-ui/core/Grid';
-import * as constants from '../../../../constants';
 import { apiUrl } from '../../../../config.json';
-const SelectProvinceCity = ({ setProvince, setCity }) => {
+const SelectProvinceCity = ({ setCity, cityLabel, provinceLabel }) => {
   const [selectStates, setSelectStates] = useState([]);
   const [selectedState, setSelectedState] = useState({});
   const [selectCities, setSelectCities] = useState([]);
   const [selectedCity, setSelectedCity] = useState({});
   const [stateId, setStateId] = useState();
-
-  const { merchantForm } = constants.MerchantProfile;
 
   useEffect(() => {
     geState();
@@ -43,7 +40,6 @@ const SelectProvinceCity = ({ setProvince, setCity }) => {
         const res = await axios.get(`${apiUrl}/city/get?state_id=${stateId}`);
         const { data: cityData } = res.data;
         const { city } = cityData;
-
         const options = city.map((d) => ({
           value: d.id,
           label: d.name,
@@ -58,15 +54,12 @@ const SelectProvinceCity = ({ setProvince, setCity }) => {
   const handleChangeState = (e) => {
     setSelectedState({ id: e.value, name: e.label });
     console.log('selected state', e);
-    setProvince(e);
+    // setProvince(e);
     setStateId(e.value);
-    console.log(e.value);
   };
   const handleChangeCity = (e) => {
     setSelectedCity({ id: e.value, name: e.label });
-    console.log('selected City', e);
-    setCity(e);
-    // setStateId(e.value);
+    setCity(e.value);
   };
 
   const style = {
@@ -86,11 +79,12 @@ const SelectProvinceCity = ({ setProvince, setCity }) => {
     <>
       <Grid item xs={12} md={6}>
         <div className={classes.formControl}>
-          <label>{merchantForm.province}</label>
+          <label>{provinceLabel}</label>
           <Select
+            instanceId={provinceLabel}
             styles={style}
             className={classes.select}
-            placeholder="انتخاب استان"
+            placeholder={provinceLabel}
             options={selectStates}
             onChange={handleChangeState}
           />
@@ -98,11 +92,12 @@ const SelectProvinceCity = ({ setProvince, setCity }) => {
       </Grid>
       <Grid item xs={12} md={6}>
         <div className={classes.formControl}>
-          <label>{merchantForm.city}</label>
+          <label>{cityLabel}</label>
           <Select
+            instanceId={cityLabel}
             styles={style}
             className={classes.select}
-            placeholder="انتخاب شهر"
+            placeholder={cityLabel}
             options={selectCities}
             onChange={handleChangeCity}
           />
