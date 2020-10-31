@@ -6,27 +6,32 @@ import Grid from '@material-ui/core/Grid';
 import * as constants from '../../../../constants';
 import FormikControl from '../form/FormikControl';
 import UploadFiles from '../form/UploadFiles';
-import jwtDecode from 'jwt-decode';
-import { toast } from 'react-toastify';
+import { getMerchantData } from './../../../../services/getMerchantService';
 import { merchantBusinessProfile } from '../../../../services/merchantBusinessProfileService';
-
+import { toast } from 'react-toastify';
 const FormContainer = () => {
   // states :
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [licenseImage, setLicenseImage] = useState();
-  const [merchant, setMerchant] = useState();
+  const [licenseImage, setLicenseImage] = useState(null);
   const [token, setToken] = useState();
+  const [userId,setUserId] = useState();
   //  Form Contants :
   const { businessForm, error } = constants.merchantBusinessForm;
-  // useEffect
-  useEffect(() => {
-    try {
-      const jwt = localStorage.getItem('token');
-      setToken(jwt);
-      const merchant = jwtDecode(jwt);
-      setMerchant(merchant);
-    } catch (error) {}
-  }, []);
+    //usEffect : decode token to get user Id
+    useEffect(() => {
+      getMerchant();
+    }, []);
+    const getMerchant = async () => {
+      try {
+        const jwt = localStorage.getItem('token');
+        setToken(jwt);
+        const { data: responseData } = await getMerchantData(jwt);
+        // toast.success(responseData.message);
+        const { user } = responseData.data;
+        const {id} = user[0];
+        setUserId(id)
+        } catch (error) {}
+    };
   // Radio options :
   const storeStatusOptions = [
     { key: 'غیرفعال', value: '0' },
@@ -43,7 +48,6 @@ const FormContainer = () => {
   //  initial values
   const initialValues = {
     storeStatus: '',
-    merchantCode: '',
     businessCode: '',
     merchantType: '',
     storeName: '',
@@ -52,8 +56,8 @@ const FormContainer = () => {
   //  onSubmit
   const onSubmit = async (values) => {
     setIsSubmitted(!isSubmitted);
-    const userId = merchant.sub;
-    const allValues = { ...values, licenseImage, token, userId };
+    const merchantCode = userId;
+    const allValues = { ...values, licenseImage, token, userId, merchantCode };
     // CALL THE SERVER
     try {
       const response = await merchantBusinessProfile(allValues);
@@ -65,7 +69,6 @@ const FormContainer = () => {
   //  validation schema
   const validationSchema = Yup.object({
     storeStatus: Yup.string().required(error.storeStatus),
-    merchantCode: Yup.string().required(error.merchantCode),
     businessCode: Yup.string().required(error.businessCode),
     merchantType: Yup.string().required(error.merchantType),
     storeName: Yup.string().required(error.storeName),
@@ -97,14 +100,16 @@ const FormContainer = () => {
                     type="text"
                     label={businessForm.merchantCode}
                     name="merchantCode"
-                    placeholder = "XGD1456-22"
+                    value={userId ? userId : 'XGD1456-22'}
+                    placeholder="XGD1456-22"
+                    disabled={true}
                   />
                   <FormikControl
                     control="input"
                     type="text"
                     label={businessForm.businessCode}
                     name="businessCode"
-                    placeholder = "XGD1456-22"
+                    placeholder="XGD1456-22"
                   />
                   <UploadFiles
                     label={businessForm.licenseImage}
@@ -125,7 +130,7 @@ const FormContainer = () => {
                   type="text"
                   label={businessForm.storeName}
                   name="storeName"
-                  placeholder = "دکوژ"
+                  placeholder="دکوژ"
                 />
                 <FormikControl
                   control="radio"
@@ -148,7 +153,7 @@ const FormContainer = () => {
                 </button>
                 <button
                   className={styles.submit}
-                  disabled={!formik.isValid || isSubmitted}
+                  disabled={!formik.isValid || isSubmitted || !licenseImage}
                   type="submit"
                 >
                   {businessForm.saveChanges}

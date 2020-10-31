@@ -8,6 +8,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import Link from 'next/link';
 const useStyles = makeStyles((theme) => ({
   root: {
+    direction : "ltr",
     width: 'auto',
     '& > * + *': {
       marginTop: theme.spacing(2),
@@ -19,8 +20,11 @@ const useStyles = makeStyles((theme) => ({
   },
   hintButton: {
     backgroundColor: '#ffa500',
-    margin: '5px 52%',
+    margin: '5px 50%',
     width: '167px',
+  },
+  link: {
+    textDecoration: 'none',
   },
 }));
 
@@ -32,7 +36,7 @@ const ToastHint = () => {
     <div className={classes.root}>
       <Collapse in={open}>
         <Alert
-          className={classes.closeButton}
+          classes={{ action: classes.closeButton}}
           action={
             <IconButton
               aria-label="close"
@@ -46,13 +50,11 @@ const ToastHint = () => {
             </IconButton>
           }
         >
-          {/* لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد، کتابهای زیادی در شصت و سه درصد گذشته حال و آینده، شناخت فراوان جامعه و متخصصان را می طلبد، تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی، و فرهنگ پیشرو در زبان فارسی ایجاد کرد، در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها، و شرایط سخت تایپ به پایان رسد و زمان مورد نیاز شامل حروفچینی دستاوردهای اصلی، و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد. */}
           اگر هنوز اطلاعات تجاری را تکمیل نکرده اید روی لینک زیر کلیک کنید تا وارد صفحه
           مربوط به اطلاعات تجاری شوید.
           <p>
-            {' '}
             <Link href="/merchant/businessProfile">
-              <a>
+              <a className={classes.link}>
                 <Button className={classes.hintButton} variant="contained">
                   تکمیل اطلاعات تجاری
                 </Button>
@@ -61,15 +63,6 @@ const ToastHint = () => {
           </p>
         </Alert>
       </Collapse>
-      <Button
-        disabled={open}
-        variant="outlined"
-        onClick={() => {
-          setOpen(true);
-        }}
-      >
-        راهنما
-      </Button>
     </div>
   );
 };

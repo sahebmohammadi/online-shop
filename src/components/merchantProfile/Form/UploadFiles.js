@@ -6,6 +6,11 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 const theme = createMuiTheme({
   overrides: {
     MuiDropzonePreviewList: {
+      image: {
+        maxWidth: 'none',
+        width : "100px",
+        height : "auto"
+      },
       imageContainer: {
         marginTop: '10px',
       },
