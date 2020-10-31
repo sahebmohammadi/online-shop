@@ -4,7 +4,7 @@ import axios from 'axios';
 import Select from 'react-select';
 import classes from './selectProvinceCity.module.scss';
 import Grid from '@material-ui/core/Grid';
-import { apiUrl } from '../../../../config.json';
+
 const SelectProvinceCity = ({ setCity, cityLabel, provinceLabel }) => {
   const [selectStates, setSelectStates] = useState([]);
   const [selectedState, setSelectedState] = useState({});
@@ -21,7 +21,7 @@ const SelectProvinceCity = ({ setCity, cityLabel, provinceLabel }) => {
 
   const geState = async () => {
     try {
-      const res = await axios.get(`${apiUrl}/state/get`);
+      const res = await axios.get(`${process.env.apiUrl}/state/get`);
       const { data: stateData } = res.data;
       const { state } = stateData;
       const options = state.map((d) => ({
@@ -37,7 +37,7 @@ const SelectProvinceCity = ({ setCity, cityLabel, provinceLabel }) => {
   const getCity = async (stateId) => {
     if (stateId) {
       try {
-        const res = await axios.get(`${apiUrl}/city/get?state_id=${stateId}`);
+        const res = await axios.get(`${process.env.apiUrl}/city/get?state_id=${stateId}`);
         const { data: cityData } = res.data;
         const { city } = cityData;
         const options = city.map((d) => ({

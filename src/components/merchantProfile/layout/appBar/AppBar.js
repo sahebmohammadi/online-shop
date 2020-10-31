@@ -19,7 +19,7 @@ import AddRoundedIcon from '@material-ui/icons/AddRounded';
 import Link from 'next/link';
 import Avatar from '@material-ui/core/Avatar';
 import { useRouter } from 'next/router';
-import { getMerchantData } from '../../../../../services/getMerchantService';
+import { getMerchantData } from 'services/getMerchantService';
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,

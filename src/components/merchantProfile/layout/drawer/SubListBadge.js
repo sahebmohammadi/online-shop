@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ErrorIcon from '@material-ui/icons/Error';
-import { getMerchantData } from '../../../../../services/getMerchantService';
+import { getMerchantData } from 'services/getMerchantService';
 
 const SubListBadge = ({ name, id }) => {
   const [isProfile, setIsProfile] = useState(null);
