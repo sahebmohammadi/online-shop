@@ -21,7 +21,6 @@ const SignUpForm = (props) => {
   const getUser = () => {
     try {
       const jwt = localStorage.getItem('token');
-      console.log('Token', jwt);
       if (jwt) {
         router.push('/merchant/login');
       }
@@ -38,7 +37,8 @@ const SignUpForm = (props) => {
   };
   //  onSubmit
   const onSubmit = async (values) => {
-    console.log('form data', values);
+    // console.log('form data', values);
+    localStorage.setItem("email",values.email)
     // CALL THE SERVER
     try {
       const response = await register(values);
@@ -74,7 +74,7 @@ const SignUpForm = (props) => {
 
   return (
     <div className={classes.signupBg}>
-     
+
       <p className={classes.signupText}>{constants.forms.registrationHeader}</p>
       <p className={classes.hint}>{constants.forms.emailPasswordHint}</p>
       <Formik

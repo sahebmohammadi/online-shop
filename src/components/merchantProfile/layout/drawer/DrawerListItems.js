@@ -1,6 +1,7 @@
 import React from 'react';
 import uuid from 'react-uuid';
 import ListIcon from './ListIcon';
+import SubListBadge from './SubListBadge';
 export const drawerListItems = [
   {
     text: 'محصولات',
@@ -37,8 +38,16 @@ export const drawerListItems = [
     isExpand: false,
     id: uuid(),
     subListItems: [
-      { text: 'اطلاعات کاربری', id: uuid(), link: '/merchant/profile' },
-      { text: 'اطلاعات تجاری', id: uuid(), link: '/merchant/businessProfile' },
+      {
+        text: <SubListBadge name="اطلاعات کاربری" id = {1} />,
+        id: uuid(),
+        link: '/merchant/profile',
+      },
+      {
+        text: <SubListBadge name="اطلاعات تجاری" id = {2}/>,
+        id: uuid(),
+        link: '/merchant/businessProfile',
+      },
     ],
   },
 ];

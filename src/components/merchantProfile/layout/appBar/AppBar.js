@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -18,6 +18,8 @@ import MoreIcon from '@material-ui/icons/MoreVert';
 import AddRoundedIcon from '@material-ui/icons/AddRounded';
 import Link from 'next/link';
 import Avatar from '@material-ui/core/Avatar';
+import { useRouter } from 'next/router';
+import { getMerchantData } from '../../../../../services/getMerchantService';
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -113,7 +115,8 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     justifyContent: 'space-between',
     // backgroundColor: "red",
-    width: '39%',
+    // width: '34%',
+    width: '340px',
     display: 'none',
     [theme.breakpoints.up('md')]: {
       display: 'flex',
@@ -131,11 +134,25 @@ const drawerWidth = 240;
 export default function DenseAppBar(props) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
+  const [merchantImage, setMerchantImage] = useState(null);
+  const [merchantName, setMerchantName] = useState(null);
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
+  //usEffect : decode token to get user Id
+  useEffect(() => {
+    getMerchant();
+  }, []);
+  const getMerchant = async () => {
+    try {
+      const jwt = localStorage.getItem('token');
+      const { data: responseData } = await getMerchantData(jwt);
+      const { user } = responseData.data;
+      const { profile } = user[0];
+      setMerchantName(profile.name);
+      setMerchantImage(profile.profile_image);
+    } catch (error) {}
+  };
   // handlers
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -152,7 +169,14 @@ export default function DenseAppBar(props) {
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
-  // Mobile Render :
+  // Route :
+  const router = useRouter();
+  const handleLogOut = () => {
+    console.log('Log out clicked');
+    localStorage.clear('token');
+    router.push('/');
+  };
+  // DESKTOP MENU :
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
@@ -165,11 +189,11 @@ export default function DenseAppBar(props) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={handleMenuClose}></MenuItem>
+      <MenuItem onClick={handleLogOut}>خروج</MenuItem>
     </Menu>
   );
-
+  // MOBILE MENU
   const mobileMenuId = 'primary-search-account-menu-mobile';
   const renderMobileMenu = (
     <Menu
@@ -184,7 +208,7 @@ export default function DenseAppBar(props) {
       <MenuItem color="primary">
         <Link href="#">
           <div className={classes.addingProduct}>
-            <AddRoundedIcon style={{ color: "#ffffff" }} />
+            <AddRoundedIcon style={{ color: '#ffffff' }} />
             <Typography style={{ fontSize: '15px', color: '#fff' }}>
               اضافه کردن محصول
             </Typography>
@@ -206,14 +230,21 @@ export default function DenseAppBar(props) {
           aria-haspopup="true"
           color="primary"
         >
-          <AccountCircle />
+          {merchantImage ? (
+            <Avatar src={merchantImage ? merchantImage : null} alt="P"></Avatar>
+          ) : (
+            <Avatar></Avatar>
+          )}
         </IconButton>
-        <p>پروفایل</p>
+        <p>خروج</p>
+      </MenuItem>
+      <MenuItem>
+        <Typography style={{ fontSize: '12px' }}>
+          {merchantName ? merchantName : null}
+        </Typography>
       </MenuItem>
     </Menu>
   );
-
-
 
   const { open, handleDrawerOpen } = props;
   return (
@@ -255,7 +286,7 @@ export default function DenseAppBar(props) {
               {/* adding new product */}
               <Link href="/">
                 <div className={classes.addingProduct}>
-                  <AddRoundedIcon style={{ color: "#ffffff" }} />
+                  <AddRoundedIcon style={{ color: '#ffffff' }} />
                   <Typography style={{ fontSize: '15px', color: '#fff' }}>
                     اضافه کردن محصول
                   </Typography>
@@ -275,9 +306,15 @@ export default function DenseAppBar(props) {
                 onClick={handleProfileMenuOpen}
                 color="inherit"
               >
-                <Avatar></Avatar>
+                {merchantImage ? (
+                  <Avatar src={merchantImage ? merchantImage : null} alt="P"></Avatar>
+                ) : (
+                  <Avatar></Avatar>
+                )}
               </IconButton>
-              <Typography>راهنما</Typography>
+              <Typography style={{ fontSize: '12px' }}>
+                {merchantName ? merchantName : null}
+              </Typography>
             </div>
             <div className={classes.sectionMobile}>
               <IconButton

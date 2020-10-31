@@ -9,40 +9,39 @@ import FormikControl from './FormikControl';
 import DatePicker from './DatePicker';
 import SelectProvinceCity from './SelectProvinceCity';
 import UploadFiles from './UploadFiles';
-import jwtDecode from 'jwt-decode';
 import { merchantProfileForm } from '../../../../services/merchantProfileService';
 import { toast } from 'react-toastify';
-
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    width: '100%',
-    padding: '100px',
-    backgroundColor: 'red',
-  },
-}));
+import { getMerchantData } from './../../../../services/getMerchantService';
 
 const MerchantForm = () => {
   // states :
-  const [birthday, setBirthday] = useState('');
-  const [city, setCity] = useState('');
+  const [birthday, setBirthday] = useState(null);
+  const [city, setCity] = useState(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [profileImage, setProfileImage] = useState();
-  const [license, setLicense] = useState();
-  const [merchant, setMerchant] = useState();
+  const [profileImage, setProfileImage] = useState(null);
+  const [license, setLicense] = useState(null);
+  const [userId,setUserId] = useState();
   const [token, setToken] = useState();
+  const [email, setEmail] = useState(null);
   //usEffect : decode token to get user Id
   useEffect(() => {
+    getMerchant();
+  }, []);
+  const getMerchant = async () => {
     try {
       const jwt = localStorage.getItem('token');
       setToken(jwt);
-      const merchant = jwtDecode(jwt);
-      setMerchant(merchant);
-    } catch (error) {}
-  }, []);
+      const { data: responseData } = await getMerchantData(jwt);
+      // toast.success(responseData.message);
+      const { user } = responseData.data;
+      const { email, id} = user[0];
+      setEmail(email);
+      setUserId(id);
+      } catch (error) {}
+  };
   //  Form Contants :
   const { error, merchantForm } = constants.MerchantProfile;
   const { forms } = constants;
-  const classes = useStyles();
   // Radio options :
   const radioOptions = [
     { key: 'مرد', value: '1' },
@@ -54,7 +53,6 @@ const MerchantForm = () => {
     family: '',
     gender: '',
     nationalCode: '',
-    email: '',
     tel: '',
     address: '',
     postalCode: '',
@@ -63,8 +61,17 @@ const MerchantForm = () => {
   //  onSubmit
   const onSubmit = async (values) => {
     setIsSubmitted(!isSubmitted);
-    const userId = merchant.sub;
-    const allValues = { ...values, birthday, city, userId, license, profileImage, token };
+
+    const allValues = {
+      ...values,
+      birthday,
+      city,
+      userId,
+      license,
+      profileImage,
+      token,
+      email,
+    };
     // CALL THE SERVER
     try {
       const response = await merchantProfileForm(allValues);
@@ -81,7 +88,7 @@ const MerchantForm = () => {
     nationalCode: Yup.string()
       .required(error.nationalCode)
       .matches(/^[0-9]{10}$/, `${error.nationalCodeLength}`),
-    email: Yup.string().required(forms.email.enter).email(forms.email.check),
+    // email: Yup.string().required(forms.email.enter).email(forms.email.check),
     tel: Yup.string()
       .required(error.tel)
       .matches(/^[0-9]{8}$/, `${error.telLength}`),
@@ -140,6 +147,8 @@ const MerchantForm = () => {
                     type="email"
                     label={merchantForm.email}
                     name="email"
+                    value={email ? email : 'example@gmail.com'}
+                    disabled={true}
                   />
                 </div>
               </Grid>
@@ -225,7 +234,14 @@ const MerchantForm = () => {
                 </button>
                 <button
                   className={styles.submit}
-                  disabled={!formik.isValid || isSubmitted}
+                  disabled={
+                    !formik.isValid ||
+                    isSubmitted ||
+                    !city ||
+                    !birthday ||
+                    !profileImage ||
+                    !license
+                  }
                   type="submit"
                 >
                   {merchantForm.saveChanges}

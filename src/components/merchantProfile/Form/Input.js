@@ -3,7 +3,7 @@ import { Field, ErrorMessage } from 'formik';
 import classes from './input.module.scss';
 import clsx from 'classnames';
 const Input = (props) => {
-  const { label, name, placeholder, ...rest } = props;
+  const { label, name, placeholder, value, disabled, ...rest } = props;
   // const [address, setAddress] = useState(false);
   // if (name === 'address') {
   //   setAddress(!address);
@@ -13,9 +13,11 @@ const Input = (props) => {
       <label htmlFor={name}>{label}</label>
       <Field
         name={name}
+        value={value}
         id={name}
         {...rest}
         placeholder={placeholder}
+        disabled={disabled}
         // className={clsx(classes.input, { [classes.address]: address })}
         className={classes.input}
       />

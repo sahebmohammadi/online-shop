@@ -5,7 +5,7 @@ import Link from 'next/link';
 import {login} from '../../../../services/merchantSigninService';
 import classes from './merchantLogin.module.scss';
 import { toast } from 'react-toastify';
-import * as constants from '../../../../constants';  
+import * as constants from '../../../../constants';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 //  Component :
@@ -33,7 +33,8 @@ const MerchantLogin = (props) => {
   };
   //  onSubmit
   const onSubmit = async (values) => {
-    console.log('form data', values);
+    localStorage.setItem("email",values.email)
+    // console.log('form data', values);
     // CALL THE SERVER
     try {
       const { data: response } = await login(values);
