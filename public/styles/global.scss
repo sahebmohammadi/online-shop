@@ -12,9 +12,9 @@ body {
   margin: 0;
   direction: rtl;
   box-sizing: border-box;
-  background-color: #fff;
+  background-color: #fff !important;
 }
 
-* {
-  direction: rtl;
-}
+// * {
+//   direction: rtl;
+// }
