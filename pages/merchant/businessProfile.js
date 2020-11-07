@@ -1,22 +1,15 @@
 import Layout from '../../src/components/merchantProfile/layout/Layout';
 import BusinessForm from '../../src/components/merchantProfile/businessForm/BusinessForm';
-import React , {useEffect} from 'react';
+import { useEffect } from 'react';
 import { useRouter } from 'next/router';
+import RedirectUser from 'src/utils/RedirectUser';
 const BusinessProfile = () => {
-      // Route :
-      const router = useRouter();
-      // useEffect :
-      useEffect(() => {
-        getUser();
-      }, []);
-      const getUser = () => {
-        try {
-          const jwt = localStorage.getItem('token');
-          if (!jwt) {
-            router.push('/merchant/login');
-          }
-        } catch (error) {}
-      };
+  // Route :
+  const router = useRouter();
+  // useEffect :
+  useEffect(() => {
+    RedirectUser(router,'businessProfile',"/merchant/login");
+  }, []);
   return (
     <Layout>
       <BusinessForm />

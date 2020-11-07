@@ -32,10 +32,14 @@ export const forms = {
   validationhint:
     'یک کد فعال سازی به ایمیل شما ارسال شده است. لطفا ایمیل خود را بررسی کنید. کد فعالسازی خود را در کادر زیر وارد کنید',
   loginHint: 'لطفا ایمیل و رمز عبور  هنگام ثبت نام را وارد کنید',
-  labes: {
+  labels: {
     email: 'ایمیل',
     password: 'رمز عبور',
     confirmPassword: 'تکرار رمز عبور',
+  },
+  acceptTerms :{
+    hint : 'تمام قوانین سایت را مطالعه کرده و قبول دارم',
+    error : 'پذیرفتن قوانین سایت الزامی است'
   },
   buttonns: {
     registration: 'ثبت نام',
@@ -113,3 +117,22 @@ export const merchantBusinessForm = {
     vatLicense: 'یک گزینه را انتخاب کنید',
   },
 };
+
+export const merchantDetail = {
+  header : {
+    title : 'مدیریت پیشه وران',
+    selectLabel : 'تغییر وضعیت پروفایل پیشه ور',
+    pending : 'در انتظار تایید',
+    active : ' تایید شده',
+    inActive : 'تایید نشده',
+    remove : 'حذف',
+    back : 'برگشت',
+    store : 'فروشگاه',
+    confirm : 'تایید'
+  },
+  toasts : {
+    error : 'پروفایل پیشه ور به حالت تایید نشده درآمد',
+    warn : 'پروفایل پیشه ور به حالت در  انتظار تایید در آمد',
+    success : 'پروفایل پیشه ور با موفقیت تایید شد'
+  }
+}

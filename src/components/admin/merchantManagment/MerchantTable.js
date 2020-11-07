@@ -7,7 +7,9 @@ import Pagination from '../../../common/Pagination';
 import paginate from '../../../utils/Paginate';
 import { toast } from 'react-toastify';
 import uuid from 'react-uuid';
-import { getMerchantsList } from 'services/merchantsListService';
+import UserStatus from '../../../common/UserStatus';
+import Link from 'next/link';
+import { getMerchantsList } from 'services/adminGetAllMerchantsService';
 import {
   Table,
   TableBody,
@@ -15,7 +17,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Avatar
+  Avatar,
 } from '@material-ui/core';
 
 const useStyles = makeStyles({
@@ -41,6 +43,7 @@ const useStyles = makeStyles({
 });
 
 const MerchantTable = () => {
+  const classes = useStyles();
   // state
   const [rowData, setRowData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -54,9 +57,8 @@ const MerchantTable = () => {
         const { data } = await getMerchantsList(token);
         const { data: userData } = data;
         const { user: merchantsData } = userData;
-        const filteredMerchantData = merchantsData.filter(m => m.profile);
-        setRowData(filteredMerchantData);
-        console.log('merchants Data', merchantsData);
+        setRowData(merchantsData);
+        // console.log('merchants Data', merchantsData);
         toast.success(data.message);
       } catch (error) {}
     };
@@ -64,7 +66,6 @@ const MerchantTable = () => {
     getAllMerchantsList();
   }, []);
 
-  const classes = useStyles();
   const handleDelete = (row) => {
     setRowData(rowData.filter((r) => r.id !== row.id));
   };
@@ -90,44 +91,53 @@ const MerchantTable = () => {
           </TableHead>
           <TableBody>
             {PaginatedRowData.map((row, index) => {
+              const { id: merchantId, profile, business } = row;
               const {
-                profile,
-                business,
-                // profileImage,
-                // merchantName,
-                // userName,
-                storeName = 'saxnax',
-                // profileStatus,
-                // storeStatus = 'inactive',
-                // id,
-                link = '#',
-              } = row;
-
-              // if (!profile) return null;
-              const {
-                name = 'saheb',
-                email = 'ex@d.com',
-                profile_image: profileImage = 'image',
-                status: profileStatus = '2',
-                status_string: storeStatus = 'inActive',
-              } = profile;
-
+                name = 'تعیین نشده',
+                email = 'تعیین نشده',
+                profile_image: profileImage,
+                status: profileStatus,
+              } = profile || {};
+              const { status: storeStatus, name: storeName = 'تعیین نشده' } =
+                business || {};
               return (
                 <TableRow key={uuid()}>
                   <TableCell className={classes.tableCell}>{index + 1}</TableCell>
                   <TableCell className={classes.tableCell}>
-                  <Avatar alt="Remy Sharp" src={profileImage} />
+                    {profileImage ? (
+                      <Avatar alt="M" src={profileImage} />
+                    ) : (
+                      <Avatar src="" alt="M"></Avatar>
+                    )}
                   </TableCell>
                   <TableCell className={classes.tableCell}>{name}</TableCell>
                   <TableCell className={classes.tableCell}>{email}</TableCell>
-                  <TableCell className={classes.tableCell}> storeName</TableCell>
-                  <TableCell className={classes.tableCell}>{profileStatus}</TableCell>
-                  <TableCell className={classes.tableCell}> {storeStatus}</TableCell>
+                  <TableCell className={classes.tableCell}> {storeName}</TableCell>
                   <TableCell className={classes.tableCell}>
-                    <LinkComponent name="پروفایل" link={link} />
+                    <UserStatus status={profileStatus ? profileStatus : 0} />
                   </TableCell>
                   <TableCell className={classes.tableCell}>
-                    <LinkComponent name="فروشگاه" link={link} />
+                    <UserStatus status={storeStatus ? storeStatus : 0} />
+                  </TableCell>
+                  <TableCell className={classes.tableCell}>
+                    {/* <Link
+                      as={`/admin/merchantDetail2/${merchantId}`}
+                      href="/admin/merchantDetail2/[id]"
+                    >
+                      <a>profile</a>
+                    </Link> */}
+                    <LinkComponent
+                      name="پروفایل"
+                      pathname="/admin/merchantDetail"
+                      merchantId={merchantId}
+                    />
+                  </TableCell>
+                  <TableCell className={classes.tableCell}>
+                    <LinkComponent
+                      name="فروشگاه"
+                      pathname="/admin/merchantDetail"
+                      merchantId={merchantId}
+                    />
                   </TableCell>
                   <TableCell className={classes.tableCell}>
                     <DeleteComponent onDelete={() => handleDelete(row)} />

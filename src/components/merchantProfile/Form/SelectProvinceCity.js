@@ -53,7 +53,6 @@ const SelectProvinceCity = ({ setCity, cityLabel, provinceLabel }) => {
 
   const handleChangeState = (e) => {
     setSelectedState({ id: e.value, name: e.label });
-    console.log('selected state', e);
     // setProvince(e);
     setStateId(e.value);
   };

@@ -15,6 +15,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import Avatar from '@material-ui/core/Avatar';
+import { useRouter } from 'next/router';
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -97,8 +98,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
-    // backgroundColor: "red",
-    width: '21%',
+    width: '190px',
     display: 'none',
     [theme.breakpoints.up('md')]: {
       display: 'flex',
@@ -137,7 +137,13 @@ export default function DenseAppBar(props) {
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
-  // Mobile Render :
+  // Route :
+  const router = useRouter();
+  const handleLogOut = () => {
+    localStorage.clear('token');
+    router.push('/');
+  };
+  // DESKTOP MENU
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
@@ -150,11 +156,11 @@ export default function DenseAppBar(props) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={handleMenuClose}></MenuItem>
+      <MenuItem onClick={handleLogOut}>خروج</MenuItem>
     </Menu>
   );
-
+  // MOBILE MENU
   const mobileMenuId = 'primary-search-account-menu-mobile';
   const renderMobileMenu = (
     <Menu
@@ -181,14 +187,12 @@ export default function DenseAppBar(props) {
           aria-haspopup="true"
           color="primary"
         >
-          <AccountCircle />
+           <Avatar></Avatar>
         </IconButton>
-        <p>پروفایل</p>
+        <p>خروج</p>
       </MenuItem>
     </Menu>
   );
-
-
 
   const { open, handleDrawerOpen } = props;
   return (

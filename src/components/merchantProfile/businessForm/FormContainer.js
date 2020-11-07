@@ -9,7 +9,7 @@ import UploadFiles from '../form/UploadFiles';
 import { getMerchantData } from 'services/getMerchantService';
 import { merchantBusinessProfile } from 'services/merchantBusinessProfileService';
 import { toast } from 'react-toastify';
-import SwitchStoreStatus from './storeStatus';
+import StatusCheck from '../../../common/StatusCheck';
 const FormContainer = () => {
   // states :
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -28,10 +28,10 @@ const FormContainer = () => {
       const jwt = localStorage.getItem('token');
       setToken(jwt);
       const { data: responseData } = await getMerchantData(jwt);
+      // toast.success(responseData.message);
       const { user } = responseData.data;
-      const { id, profile, business } = user[0];
-      console.log({ profile, business });
-      const {status} = business;
+      const { id, business } = user[0];
+      const { status } = business;
       setStoreStatus(status);
       setUserId(id);
     } catch (error) {}
@@ -86,7 +86,7 @@ const FormContainer = () => {
               <p className={styles.formHint}> {businessForm.businessInfo}</p>
               <Grid item xs={12} md={6}>
                 <div className={styles.inputGroup}>
-                  <SwitchStoreStatus storeStatus = {storeStatus}/>
+                  <StatusCheck status={storeStatus} />
                   <FormikControl
                     control="input"
                     type="text"

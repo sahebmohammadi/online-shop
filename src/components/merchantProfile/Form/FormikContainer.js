@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from 'react';
+import { getMerchantData } from '../../../../services/getMerchantService';
+import { merchantProfileForm } from '../../../../services/merchantProfileService';
 import { Formik, Form } from 'formik';
-import styles from './formikContainer.module.scss';
 import * as Yup from 'yup';
 import Grid from '@material-ui/core/Grid';
-import { makeStyles } from '@material-ui/core/styles';
 import * as constants from '../../../../constants';
 import FormikControl from './FormikControl';
 import DatePicker from './DatePicker';
 import SelectProvinceCity from './SelectProvinceCity';
 import UploadFiles from './UploadFiles';
-import { merchantProfileForm } from '../../../../services/merchantProfileService';
 import { toast } from 'react-toastify';
-import { getMerchantData } from '../../../../services/getMerchantService';
+import styles from './formikContainer.module.scss';
 
 const MerchantForm = () => {
   // states :
@@ -32,7 +31,6 @@ const MerchantForm = () => {
       const jwt = localStorage.getItem('token');
       setToken(jwt);
       const { data: responseData } = await getMerchantData(jwt);
-      // toast.success(responseData.message);
       const { user } = responseData.data;
       const { email, id} = user[0];
       setEmail(email);
