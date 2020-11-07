@@ -2,22 +2,24 @@
   display: flex;
   flex-wrap: wrap;
   margin-top: 30px;
+  text-align: center;
   width: 100%;
   flex-direction: row;
-  justify-content: flex-start;
+  direction: rtl;
   label {
     color: #464545;
-    width: 115px;
-  }
-  .radioControl {
-    // width: 155px;
+    font: 'Shabnam' normal;
+    cursor: pointer;
+    align-items: center;
     display: flex;
-    flex-direction: row;
-    // flex: 50%;
-    width: 100%;
-    justify-content: flex-start;
-    label.radioLabel {
-      width: 80% !important;
-    }
+    width: 115px;
+    position: relative;
   }
+  .input {
+    display: flex;
+    justify-content: flex-start;
+    width: 231px;
+    height: 37px;
+    }
+
 }
