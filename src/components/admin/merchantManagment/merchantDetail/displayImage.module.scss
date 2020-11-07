@@ -1,0 +1,29 @@
+.formControl {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  margin-top: 30px;
+  text-align: center;
+  width: 100%;
+  flex-direction: row;
+  direction: rtl;
+  label {
+    color: #464545;
+    font: 'Shabnam' normal;
+    cursor: pointer;
+    align-items: center;
+    display: flex;
+    width: 115px;
+    position: relative;
+  }
+  .input {
+    display: flex;
+    justify-content: center;
+    width: 231px;
+    height: auto;
+    img {
+      width: 100%;
+      height: auto;
+    }
+  }
+}

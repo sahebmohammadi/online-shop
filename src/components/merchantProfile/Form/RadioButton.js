@@ -3,7 +3,7 @@ import { Field, ErrorMessage } from 'formik';
 import classes from './radio.module.scss';
 import uuid from 'react-uuid';
 const RadioButton = (props) => {
-  const { label, name, options, ...rest } = props;
+  const { label, name, options, ...rest} = props;
   return (
     <div className={classes.formControl} key={uuid()}>
       <label>{label}</label>

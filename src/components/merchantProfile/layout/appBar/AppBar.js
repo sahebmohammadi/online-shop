@@ -114,8 +114,6 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
-    // backgroundColor: "red",
-    // width: '34%',
     width: '340px',
     display: 'none',
     [theme.breakpoints.up('md')]: {
@@ -133,7 +131,7 @@ const useStyles = makeStyles((theme) => ({
 const drawerWidth = 240;
 export default function DenseAppBar(props) {
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
   const [merchantImage, setMerchantImage] = useState(null);
   const [merchantName, setMerchantName] = useState(null);
@@ -172,7 +170,6 @@ export default function DenseAppBar(props) {
   // Route :
   const router = useRouter();
   const handleLogOut = () => {
-    console.log('Log out clicked');
     localStorage.clear('token');
     router.push('/');
   };

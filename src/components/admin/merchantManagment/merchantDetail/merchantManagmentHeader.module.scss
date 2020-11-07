@@ -1,0 +1,85 @@
+
+.btn{
+  outline: none;
+  cursor: pointer;
+  width: 101px;
+  height: 39px;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px 0 rgba(0, 0, 0, 0.05);
+  border: solid 0.5px #e8e8e8;
+  font-family: 'Shabnam';
+  font-size: 15px;
+  color: #fff;
+  background-color: #052971;
+}
+
+.header {
+  display: flex;
+ justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 22px;
+  p {
+    font-family: 'Shabnam';
+    font-size: 20px;
+    color: #052971;
+  }
+  .buttonGroup {
+    width: 350px;
+    display: flex;
+    justify-content: space-around;
+    .button {
+      @extend .btn;
+    }
+    .delete {
+      background-color: #e4464b !important;
+    }
+  }
+}
+.merchantOperations{
+  // width: 80%;
+  padding:  0 22px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  .formControl {
+    display: flex;
+    flex-wrap: wrap;
+    text-align: center;
+    min-width: 40%;
+    flex-direction: row;
+    direction: rtl;
+    label {
+      color: #122f61;
+      font: 'Shabnam' bold;
+      cursor: pointer;
+      align-items: center;
+      display: flex;
+      width: 200px;
+      position: relative;
+      font-size: 15px;
+      color: #464545;
+    }
+    .select {
+      border-radius: 10px;
+      outline: none;
+      border: solid 1px #979797;
+      box-sizing: border-box;
+      color: #052971;
+      font-size: 12px;
+      font-family: 'Shabnam';
+      &:placeholder {
+        font-family: 'Shabnam';
+        font-size: 12px;
+        color: #979797;
+      }
+      &:focus {
+        border-color: #052971;
+        outline: none;
+      }
+    }
+  }
+  .verify{
+    @extend .btn;
+  }
+}

@@ -1,54 +1,33 @@
-// Import
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import { register } from '../../../../services/merchantSignUpService';
 import Link from 'next/link';
-import  {register} from '../../../../services/merchantSignUpService';
+import * as constants from '../../../../constants';
 import classes from './signUpForm.module.scss';
 import { toast } from 'react-toastify';
-import * as constants from '../../../../constants';
-import { Router } from 'next/router';
-import { useEffect } from 'react';
-import { useRouter } from 'next/router';
-
 //  Component :
 const SignUpForm = (props) => {
-  // Route :
-  const router = useRouter();
-  // useEffect :
-  useEffect(() => {
-    getUser();
-  }, []);
-  const getUser = () => {
-    try {
-      const jwt = localStorage.getItem('token');
-      if (jwt) {
-        router.push('/merchant/login');
-      }
-    } catch (error) {}
-  };
+  const {forms} = constants;
   // props
   const { setStep, setMerchant } = props;
-
   //  initial values
   const initialValues = {
     email: '',
     password: '',
     confirmPassword: '',
+    acceptTerms: false,
   };
   //  onSubmit
   const onSubmit = async (values) => {
     // console.log('form data', values);
-    localStorage.setItem("email",values.email)
+    localStorage.setItem('email', values.email);
     // CALL THE SERVER
     try {
       const response = await register(values);
-      console.log('response ', response);
       const { data } = response;
-      console.log('data : ', data);
       toast.success(data.message);
       const { data: userData } = data;
       const { user } = userData;
-      console.log(user);
       // Set Merchant
       setMerchant(values);
       // Updating the state of SignUp
@@ -59,24 +38,24 @@ const SignUpForm = (props) => {
   //  validation schema
   const validationSchema = Yup.object({
     email: Yup.string()
-      .required(constants.forms.email.enter)
-      .email(constants.forms.email.check),
+      .required(forms.email.enter)
+      .email(forms.email.check),
     password: Yup.string()
-      .required(constants.forms.password.enter)
+      .required(forms.password.enter)
       .matches(
         /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&]{8,}$/,
-        `${constants.forms.password.validation}`,
+        `${forms.password.validation}`,
       ),
     confirmPassword: Yup.string()
-      .oneOf([Yup.ref('password'), ''], constants.forms.password.check)
-      .required(constants.forms.password.enter),
+      .oneOf([Yup.ref('password'), ''], forms.password.check)
+      .required(forms.password.enter),
+      acceptTerms: Yup.bool().oneOf([true], forms.acceptTerms.error)
   });
 
   return (
     <div className={classes.signupBg}>
-
-      <p className={classes.signupText}>{constants.forms.registrationHeader}</p>
-      <p className={classes.hint}>{constants.forms.emailPasswordHint}</p>
+      <p className={classes.signupText}>{forms.registrationHeader}</p>
+      <p className={classes.hint}>{forms.emailPasswordHint}</p>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
@@ -87,7 +66,7 @@ const SignUpForm = (props) => {
           <Form>
             <div className={classes.inputGroup}>
               <div className={classes.formControl}>
-                <label htmlFor="email">{constants.forms.labes.email}</label>
+                <label htmlFor="email">{forms.labels.email}</label>
                 <Field
                   id="email"
                   name="email"
@@ -102,7 +81,7 @@ const SignUpForm = (props) => {
                 />
               </div>
               <div className={classes.formControl}>
-                <label htmlFor="password">{constants.forms.labes.password}</label>
+                <label htmlFor="password">{forms.labels.password}</label>
                 <Field
                   id="password"
                   name="password"
@@ -118,7 +97,7 @@ const SignUpForm = (props) => {
               </div>
               <div className={classes.formControl}>
                 <label htmlFor="confirmPassword">
-                  {constants.forms.labes.confirmPassword}
+                  {forms.labels.confirmPassword}
                 </label>
                 <Field
                   id="confirmPassword"
@@ -133,9 +112,20 @@ const SignUpForm = (props) => {
                   className={classes.validationError}
                 />
               </div>
+              <div className={classes.formControl}>
+                <Field type="checkbox" name="acceptTerms" />
+                <label htmlFor="acceptTerms" className="form-check-label">
+                {forms.acceptTerms.hint}
+                </label>
+                <ErrorMessage
+                  name="acceptTerms"
+                  component="div"
+                  className={classes.validationError}
+                />
+              </div>
 
               <button className={classes.submit} disabled={!formik.isValid} type="submit">
-                {constants.forms.buttonns.registration}
+                {forms.buttonns.registration}
               </button>
             </div>
           </Form>
@@ -144,7 +134,7 @@ const SignUpForm = (props) => {
 
       <p className={classes.existingAccountAsk}>
         <Link href="/merchant/login">
-          <a className={classes.link}>{constants.forms.existingAccount}</a>
+          <a className={classes.link}>{forms.existingAccount}</a>
         </Link>
       </p>
     </div>

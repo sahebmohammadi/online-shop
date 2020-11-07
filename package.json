@@ -14,6 +14,7 @@
     "@material-ui/lab": "^4.0.0-alpha.56",
     "@material-ui/styles": "^4.10.0",
     "axios": "^0.20.0",
+    "classname": "0.0.0",
     "classnames": "^2.2.6",
     "formik": "^2.1.7",
     "jss-rtl": "^0.3.0",
@@ -34,6 +35,7 @@
     "yup": "^0.29.3"
   },
   "devDependencies": {
+    "eslint-plugin-react-hooks": "^4.1.2",
     "file-loader": "^6.1.1",
     "prettier": "^2.1.2",
     "sass": "^1.26.11"
