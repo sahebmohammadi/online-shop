@@ -4,8 +4,6 @@ const apiEndPoint = process.env.apiUrl + '/dashboard/profile/business';
 
 export const merchantBusinessProfile = (user) => {
   const {
-    storeStatus,
-    merchantCode,
     businessCode,
     merchantType,
     storeName,
@@ -20,7 +18,6 @@ export const merchantBusinessProfile = (user) => {
   const formData = new FormData();
   formData.append('name', storeName);
   formData.append('type', merchantType);
-  formData.append('merchant_code', merchantCode);
   formData.append('business_code', businessCode);
   formData.append('vat_license', vatLicense);
   formData.append('license_image', licenseImage);

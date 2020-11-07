@@ -6,37 +6,38 @@ import Grid from '@material-ui/core/Grid';
 import * as constants from '../../../../constants';
 import FormikControl from '../form/FormikControl';
 import UploadFiles from '../form/UploadFiles';
-import { getMerchantData } from './../../../../services/getMerchantService';
-import { merchantBusinessProfile } from '../../../../services/merchantBusinessProfileService';
+import { getMerchantData } from 'services/getMerchantService';
+import { merchantBusinessProfile } from 'services/merchantBusinessProfileService';
 import { toast } from 'react-toastify';
+import SwitchStoreStatus from './storeStatus';
 const FormContainer = () => {
   // states :
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [licenseImage, setLicenseImage] = useState(null);
   const [token, setToken] = useState();
-  const [userId,setUserId] = useState();
+  const [userId, setUserId] = useState();
+  const [storeStatus, setStoreStatus] = useState(0);
   //  Form Contants :
   const { businessForm, error } = constants.merchantBusinessForm;
-    //usEffect : decode token to get user Id
-    useEffect(() => {
-      getMerchant();
-    }, []);
-    const getMerchant = async () => {
-      try {
-        const jwt = localStorage.getItem('token');
-        setToken(jwt);
-        const { data: responseData } = await getMerchantData(jwt);
-        // toast.success(responseData.message);
-        const { user } = responseData.data;
-        const {id} = user[0];
-        setUserId(id)
-        } catch (error) {}
-    };
+  //usEffect : decode token to get user Id
+  useEffect(() => {
+    getMerchant();
+  }, []);
+  const getMerchant = async () => {
+    try {
+      const jwt = localStorage.getItem('token');
+      setToken(jwt);
+      const { data: responseData } = await getMerchantData(jwt);
+      const { user } = responseData.data;
+      const { id, profile, business } = user[0];
+      console.log({ profile, business });
+      const {status} = business;
+      setStoreStatus(status);
+      setUserId(id);
+    } catch (error) {}
+  };
+
   // Radio options :
-  const storeStatusOptions = [
-    { key: 'غیرفعال', value: '0' },
-    { key: 'فعال', value: '1' },
-  ];
   const merchantTypeOptions = [
     { key: 'حقیقی', value: '0' },
     { key: 'حقوقی', value: '1' },
@@ -47,7 +48,6 @@ const FormContainer = () => {
   ];
   //  initial values
   const initialValues = {
-    storeStatus: '',
     businessCode: '',
     merchantType: '',
     storeName: '',
@@ -56,8 +56,7 @@ const FormContainer = () => {
   //  onSubmit
   const onSubmit = async (values) => {
     setIsSubmitted(!isSubmitted);
-    const merchantCode = userId;
-    const allValues = { ...values, licenseImage, token, userId, merchantCode };
+    const allValues = { ...values, licenseImage, token, userId };
     // CALL THE SERVER
     try {
       const response = await merchantBusinessProfile(allValues);
@@ -68,8 +67,6 @@ const FormContainer = () => {
 
   //  validation schema
   const validationSchema = Yup.object({
-    storeStatus: Yup.string().required(error.storeStatus),
-    businessCode: Yup.string().required(error.businessCode),
     merchantType: Yup.string().required(error.merchantType),
     storeName: Yup.string().required(error.storeName),
     vatLicense: Yup.string().required(error.vatLicense),
@@ -89,27 +86,19 @@ const FormContainer = () => {
               <p className={styles.formHint}> {businessForm.businessInfo}</p>
               <Grid item xs={12} md={6}>
                 <div className={styles.inputGroup}>
-                  <FormikControl
-                    control="radio"
-                    label={businessForm.storeStatus}
-                    name="storeStatus"
-                    options={storeStatusOptions}
-                  />
-                  <FormikControl
-                    control="input"
-                    type="text"
-                    label={businessForm.merchantCode}
-                    name="merchantCode"
-                    value={userId ? userId : 'XGD1456-22'}
-                    placeholder="XGD1456-22"
-                    disabled={true}
-                  />
+                  <SwitchStoreStatus storeStatus = {storeStatus}/>
                   <FormikControl
                     control="input"
                     type="text"
                     label={businessForm.businessCode}
                     name="businessCode"
                     placeholder="XGD1456-22"
+                  />
+                  <FormikControl
+                    control="radio"
+                    label={businessForm.vatLicense}
+                    name="vatLicense"
+                    options={vatLicenseOptions}
                   />
                   <UploadFiles
                     label={businessForm.licenseImage}
@@ -131,12 +120,6 @@ const FormContainer = () => {
                   label={businessForm.storeName}
                   name="storeName"
                   placeholder="دکوژ"
-                />
-                <FormikControl
-                  control="radio"
-                  label={businessForm.vatLicense}
-                  name="vatLicense"
-                  options={vatLicenseOptions}
                 />
               </Grid>
 

@@ -11,7 +11,7 @@ import SelectProvinceCity from './SelectProvinceCity';
 import UploadFiles from './UploadFiles';
 import { merchantProfileForm } from '../../../../services/merchantProfileService';
 import { toast } from 'react-toastify';
-import { getMerchantData } from './../../../../services/getMerchantService';
+import { getMerchantData } from '../../../../services/getMerchantService';
 
 const MerchantForm = () => {
   // states :

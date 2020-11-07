@@ -2,7 +2,7 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import ToastHint from './Toast';
-import FormikContainer from './Form/FormikContainer';
+import FormikContainer from './form/FormikContainer';
 
 const useStyles = makeStyles((theme) => ({
   content: {

@@ -8,7 +8,7 @@ const SubListBadge = ({ name, id }) => {
   //usEffect : decode token to get user Id
   useEffect(() => {
     getMerchant();
-  }, []);
+  }, [isProfile, isBusiness]);
   const getMerchant = async () => {
     try {
       const jwt = localStorage.getItem('token');

@@ -91,6 +91,9 @@ export const merchantBusinessForm = {
   businessForm: {
     businessInfo: 'اطلاعات تجاری',
     storeStatus: 'وضعیت فروشگاه',
+    inActive : 'غیرفعال',
+    pending : 'در انتظار تایید',
+    active : 'فعال',
     merchantCode: 'کد فروشنده',
     businessCode: 'کد اقتصادی',
     licenseImage: 'تصویر جواز',
@@ -105,7 +108,6 @@ export const merchantBusinessForm = {
     storeStatus: '',
     merchantCode: 'کد فروشنده را وارد کنید',
     businessCode: 'کد اقتصادی را وارد کنید',
-    // licenseImage: 'تصویر جواز',
     merchantType: 'نوع فروشنده را انتخاب کنید',
     storeName: 'نام فروشگاه را وارد کنید',
     vatLicense: 'یک گزینه را انتخاب کنید',
