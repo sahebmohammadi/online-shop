@@ -1,19 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Formik, Form } from 'formik';
 import styles from '../../../merchantProfile/form/formikContainer.module.scss';
 import Grid from '@material-ui/core/Grid';
 import * as constants from '../../../../../constants';
 import FormikControl from '../../../merchantProfile/form/FormikControl';
 import StatusCheck from '../../../../common/StatusCheck';
-import { getMerchantData } from 'services/getMerchantService';
 import DisplayImage from './DisplayImage';
 import { Typography } from '@material-ui/core';
 const BusinessForm = ({ business }) => {
   const {
     name,
     type,
-    business_code : businessCode,
-    vat_license : vatLicense,
+    business_code: businessCode,
+    vat_license: vatLicense,
     license_image,
     status: storeStatus = 0,
   } = business || {};
@@ -58,7 +57,7 @@ const BusinessForm = ({ business }) => {
                     label={businessForm.businessCode}
                     name="businessCode"
                     placeholder="XGD1456-22"
-                    value={businessCode ? businessCode : " "}
+                    value={businessCode ? businessCode : ' '}
                     disabled={true}
                   />
                   <FormikControl
@@ -86,7 +85,7 @@ const BusinessForm = ({ business }) => {
                   label={businessForm.storeName}
                   name="storeName"
                   placeholder="دکوژ"
-                  value={name ? name : " "}
+                  value={name ? name : ' '}
                   disabled={true}
                 />
               </Grid>

@@ -3,12 +3,12 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import Select from 'react-select';
 import classes from './merchantManagmentHeader.module.scss';
-import selectClasses from '../../../merchantProfile/form/selectProvinceCity.module.scss';
-import clx from 'classname';
-import { activateMerchantProfile } from '../../../../../services/activateMerchantProfileService';
+import clx from 'classnames';
+import { activateMerchantProfile } from 'services/activateMerchantProfileService';
 import { toast } from 'react-toastify';
-import * as constants from '../../../../../constants';
-const { header, toasts } = constants.merchantDetail;
+import { merchantDetail } from '../../../../../constants';
+
+const { header, toasts } = merchantDetail;
 const { error, warn, success } = toasts;
 const {
   title,

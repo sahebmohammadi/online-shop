@@ -12,6 +12,7 @@ const constant = {
     },
   },
 };
+
 export const forms = {
   registrationHeader: 'ثبت نام در کوچه مبل',
   loginHeader: 'ورود به حساب کاربری',
@@ -37,9 +38,9 @@ export const forms = {
     password: 'رمز عبور',
     confirmPassword: 'تکرار رمز عبور',
   },
-  acceptTerms :{
-    hint : 'تمام قوانین سایت را مطالعه کرده و قبول دارم',
-    error : 'پذیرفتن قوانین سایت الزامی است'
+  acceptTerms: {
+    hint: 'تمام قوانین سایت را مطالعه کرده و قبول دارم',
+    error: 'پذیرفتن قوانین سایت الزامی است',
   },
   buttonns: {
     registration: 'ثبت نام',
@@ -91,13 +92,14 @@ export const MerchantProfile = {
     city: 'شهر خود را انتخاب کنید ',
   },
 };
+
 export const merchantBusinessForm = {
   businessForm: {
     businessInfo: 'اطلاعات تجاری',
     storeStatus: 'وضعیت فروشگاه',
-    inActive : 'غیرفعال',
-    pending : 'در انتظار تایید',
-    active : 'فعال',
+    inActive: 'غیرفعال',
+    pending: 'در انتظار تایید',
+    active: 'فعال',
     merchantCode: 'کد فروشنده',
     businessCode: 'کد اقتصادی',
     licenseImage: 'تصویر جواز',
@@ -119,20 +121,20 @@ export const merchantBusinessForm = {
 };
 
 export const merchantDetail = {
-  header : {
-    title : 'مدیریت پیشه وران',
-    selectLabel : 'تغییر وضعیت پروفایل پیشه ور',
-    pending : 'در انتظار تایید',
-    active : ' تایید شده',
-    inActive : 'تایید نشده',
-    remove : 'حذف',
-    back : 'برگشت',
-    store : 'فروشگاه',
-    confirm : 'تایید'
+  header: {
+    title: 'مدیریت پیشه وران',
+    selectLabel: 'تغییر وضعیت پروفایل پیشه ور',
+    pending: 'در انتظار تایید',
+    active: ' تایید شده',
+    inActive: 'تایید نشده',
+    remove: 'حذف',
+    back: 'برگشت',
+    store: 'فروشگاه',
+    confirm: 'تایید',
   },
-  toasts : {
-    error : 'پروفایل پیشه ور به حالت تایید نشده درآمد',
-    warn : 'پروفایل پیشه ور به حالت در  انتظار تایید در آمد',
-    success : 'پروفایل پیشه ور با موفقیت تایید شد'
-  }
-}
+  toasts: {
+    error: 'پروفایل پیشه ور به حالت تایید نشده درآمد',
+    warn: 'پروفایل پیشه ور به حالت در  انتظار تایید در آمد',
+    success: 'پروفایل پیشه ور با موفقیت تایید شد',
+  },
+};
