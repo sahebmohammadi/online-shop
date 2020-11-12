@@ -1,5 +1,5 @@
-import { getMerchantData } from '../../services/getMerchantService';
-// import { useRouter } from 'next/router';
+import { getMerchantData } from 'services/getMerchantService';
+
 const RedirectUser = async (router, pageLink, notAuthorized = null) => {
   try {
     const jwt = localStorage.getItem('token');
