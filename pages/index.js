@@ -6,29 +6,25 @@ import Button from '@material-ui/core/Button';
 export default function Home() {
   return (
     <div className="container">
-      <main>
-        <div>
-          <div style={{ margin: '100px' }}>
-            <Link rel="icon" href="/merchant/login">
-              <a>
-                <Button variant="outlined" color="primary">
-                  Click to navigate to merchant login
-                </Button>
-              </a>
-            </Link>
-          </div>
-        </div>
-        <div>
-          <div style={{ margin: '100px' }}>
-            <Link rel="icon" href="/admin/login">
-              <a>
-                <Button variant="outlined" color="primary">
-                  Click to navigate to admin login
-                </Button>
-              </a>
-            </Link>
-          </div>
-        </div>
+      <main style={{ margin: '20px' }}>
+        <span style={{ margin: '10px' }}>
+          <Link rel="icon" href="/merchant/login">
+            <a>
+              <Button variant="outlined" color="primary">
+                پنل کسب و کار
+              </Button>
+            </a>
+          </Link>
+        </span>
+        <span style={{ margin: '10px' }}>
+          <Link rel="icon" href="/admin/login">
+            <a>
+              <Button variant="outlined" color="primary">
+                پنل مدیریت
+              </Button>
+            </a>
+          </Link>
+        </span>
       </main>
     </div>
   );
