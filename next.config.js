@@ -12,4 +12,5 @@ module.exports = {
   env: {
     apiUrl: 'https://api.decooj.com/api',
   },
+  trailingSlash: true,
 };

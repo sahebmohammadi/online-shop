@@ -1,0 +1,27 @@
+
+# RewriteOptions inherit
+
+# RewriteEngine on
+# RewriteCond %{HTTP_HOST} ^decooj\.com$ [OR]
+# RewriteCond %{HTTP_HOST} ^www\.decooj\.com$
+# RewriteRule ^/?$ "https\:\/\/decooj\.com\/webapp" [R=301,L]
+
+RewriteEngine on
+
+# RewriteCond %{REQUEST_FILENAME} !-f
+# RewriteCond %{REQUEST_FILENAME} !-d
+
+# RewriteRule . index.html
+
+
+RewriteCond %{REQUEST_URI} !\.[a-zA-Z0-9]{3,4}
+RewriteCond %{REQUEST_URI} !/$
+RewriteCond %{REQUEST_URI} !\.(html|css|js|less|jpg|png|gif)$
+RewriteRule ^(.*)$ $1.html
+
+# php -- BEGIN cPanel-generated handler, do not edit
+# Set the “ea-php73” package as the default “PHP” programming language.
+<IfModule mime_module>
+  AddHandler application/x-httpd-ea-php73 .php .php7 .phtml
+</IfModule>
+# php -- END cPanel-generated handler, do not edit
