@@ -8,7 +8,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import Link from 'next/link';
 const useStyles = makeStyles((theme) => ({
   root: {
-    direction : "ltr",
+    // direction : "ltr ",
     width: 'auto',
     '& > * + *': {
       marginTop: theme.spacing(2),

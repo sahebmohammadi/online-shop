@@ -105,7 +105,7 @@ export const merchantBusinessForm = {
     licenseImage: 'تصویر جواز',
     hintLicenseImage: 'بارگذاری جوار کسب و کار',
     merchantType: 'نوع فروشنده',
-    storeName: 'نام فروشگاه',
+    businessName: 'نام فروشگاه',
     vatLicense: 'گواهی ارزش افزوده',
     saveChanges: 'ذخیره اطلاعات',
     edit: 'ویرایش',
@@ -136,5 +136,29 @@ export const merchantDetail = {
     error: 'پروفایل پیشه ور به حالت تایید نشده درآمد',
     warn: 'پروفایل پیشه ور به حالت در  انتظار تایید در آمد',
     success: 'پروفایل پیشه ور با موفقیت تایید شد',
+  },
+};
+
+export const merchantStore = {
+  managment: 'مدیریت فروشگاه',
+  name: 'نام فروشگاه / برند',
+  about: 'درباره فروشگاه',
+  type: 'نوع فروشگاه',
+  tag: 'تگ های فروشگاه',
+  callInfo: 'اطلاعات تماس فروشگاه',
+  tel: 'تلفن',
+  address: 'آدرس',
+  image: 'بارگذاری  تصاویر فروشگاه',
+  logo: 'لوگو',
+  catalog: 'کاتالوگ / رزومه',
+  gallery: 'گالری فروشگاه',
+  edit: 'ویرایش',
+  saveChanges: 'ذخیره تغییرات',
+  error: {
+    name: 'نام فروشگاه یا برندرا وارد کنید',
+    about: 'توضیحات مربوط به فروشگاه را به صورت کامل بیان کنید',
+    tel: 'تلفن هشت رقمی فروشگاه را وارد کنید',
+    telLength: 'شماره تلفن باید شامل هشت رقم باشد',
+    address: 'آدرس فروشگاه را وارد کنید',
   },
 };

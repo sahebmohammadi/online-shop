@@ -1,5 +1,5 @@
 import Layout from '../../src/components/merchantProfile/layout/Layout';
-import BusinessForm from '../../src/components/merchantProfile/businessForm/BusinessForm';
+import BusinessForm from '../../src/components/merchantProfile/businessForm/Content';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import RedirectUser from 'src/utils/RedirectUser';

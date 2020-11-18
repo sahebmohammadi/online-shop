@@ -5,31 +5,29 @@ import MerchantManagment from 'src/components/admin/merchantManagment/MerchantMa
 import Content from 'src/components/admin/merchantManagment/Content';
 import ProfileForm from 'src/components/admin/merchantManagment/merchantDetail/ProfileForm';
 import BusinessForm from 'src/components/admin/merchantManagment/merchantDetail/BusinessForm';
-import Stepper from 'src/components/admin/merchantManagment/merchantDetail/Stepper';
+import Stepper from 'src/common/Stepper';
 import RedirectUser from 'src/utils/RedirectUser';
 import { getOneMerchant } from 'services/adminGetOneMerchantService';
 import MerchantManagmentHeader from 'src/components/admin/merchantManagment/merchantDetail/MerchantManagmentHeader';
-
 const MerchantDetail = () => {
   // STATE
   const [profile, setProfile] = useState(null);
   const [business, setBusiness] = useState(null);
   const [activeStep, setActiveStep] = useState(0);
+  const steps = ['اطلاعات کاربری', 'اطلاعات تجاری'];
   // Route :
   const router = useRouter();
   // useEffect :
   useEffect(() => {
     getOneMerchantData();
-    console.log({router});
-    console.log(router.query);
-    // RedirectUser(router, 'merchantManagment','/admin/login');
+    // console.log(router.query);
+    // RedirectUser(router, 'merchantPofile','/admin/login');
   }, []);
   const getOneMerchantData = async () => {
     try {
       const token = localStorage.getItem('token');
       const id = router.query.id;
       const { data: responseData } = await getOneMerchant(token, id);
-      // console.log({ responseData });
       const { user } = responseData.data;
       const { profile, business } = user[0];
       setProfile(profile);
@@ -42,10 +40,10 @@ const MerchantDetail = () => {
     <Layout>
       <Content>
         <MerchantManagment>
-          <MerchantManagmentHeader/>
+          <MerchantManagmentHeader />
         </MerchantManagment>
         <MerchantManagment>
-          <Stepper activeStep={activeStep} setActiveStep={setActiveStep}>
+          <Stepper activeStep={activeStep} setActiveStep={setActiveStep} steps={steps}>
             {activeStep == 0 && profile ? (
               <ProfileForm profile={profile} />
             ) : (

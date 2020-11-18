@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { rows, columns } from './RowData';
-import LinkComponent from '../../../common/Link';
+import { columns } from './ColumnData';
+import LinkComponent from 'src/common/LinkComponent';
 import { makeStyles } from '@material-ui/core/styles';
-import DeleteComponent from '../../../common/Delete';
-import Pagination from '../../../common/Pagination';
-import paginate from '../../../utils/Paginate';
+import DeleteComponent from 'src/common/Delete';
+import Pagination from 'src/common/Pagination';
+import paginate from 'src/utils/Paginate';
 import { toast } from 'react-toastify';
 import uuid from 'react-uuid';
-import UserStatus from '../../../common/UserStatus';
-import Link from 'next/link';
+import UserStatus from 'src/common/UserStatus';
 import { getMerchantsList } from 'services/adminGetAllMerchantsService';
 import {
   Table,
@@ -58,7 +57,7 @@ const MerchantTable = () => {
         const { data: userData } = data;
         const { user: merchantsData } = userData;
         setRowData(merchantsData);
-        // console.log('merchants Data', merchantsData);
+        console.log(merchantsData);
         toast.success(data.message);
       } catch (error) {}
     };
@@ -91,15 +90,13 @@ const MerchantTable = () => {
           </TableHead>
           <TableBody>
             {PaginatedRowData.map((row, index) => {
-              const { id: merchantId, profile, business } = row;
+              const { id: merchantId, profile, email } = row;
               const {
                 name = 'تعیین نشده',
-                email = 'تعیین نشده',
                 profile_image: profileImage,
                 status: profileStatus,
+                business_name: businessName = 'تعیین نشده',
               } = profile || {};
-              const { status: storeStatus, name: storeName = 'تعیین نشده' } =
-                business || {};
               return (
                 <TableRow key={uuid()}>
                   <TableCell className={classes.tableCell}>{index + 1}</TableCell>
@@ -112,31 +109,29 @@ const MerchantTable = () => {
                   </TableCell>
                   <TableCell className={classes.tableCell}>{name}</TableCell>
                   <TableCell className={classes.tableCell}>{email}</TableCell>
-                  <TableCell className={classes.tableCell}> {storeName}</TableCell>
+                  <TableCell className={classes.tableCell}>
+                    {businessName ? businessName : 'تعیین نشده'}
+                  </TableCell>
                   <TableCell className={classes.tableCell}>
                     <UserStatus status={profileStatus ? profileStatus : 0} />
                   </TableCell>
-                  <TableCell className={classes.tableCell}>
+                  {/* <TableCell className={classes.tableCell}>
                     <UserStatus status={storeStatus ? storeStatus : 0} />
-                  </TableCell>
+                  </TableCell> */}
                   <TableCell className={classes.tableCell}>
-                    {/* <Link
-                      as={`/admin/merchantDetail2/${merchantId}`}
-                      href="/admin/merchantDetail2/[id]"
-                    >
-                      <a>profile</a>
-                    </Link> */}
                     <LinkComponent
+                      as={`/admin/merchantProfile/${merchantId}`}
+                      href="/admin/merchantProfile/[id]"
                       name="پروفایل"
-                      pathname="/admin/merchantDetail"
-                      merchantId={merchantId}
-                    />
+                    >
+                      {/* <a>profile</a> */}
+                    </LinkComponent>
                   </TableCell>
                   <TableCell className={classes.tableCell}>
                     <LinkComponent
                       name="فروشگاه"
-                      pathname="/admin/merchantDetail"
-                      merchantId={merchantId}
+                      as={`/admin/merchantStore/${merchantId}`}
+                      href="/admin/merchantStore/[id]"
                     />
                   </TableCell>
                   <TableCell className={classes.tableCell}>

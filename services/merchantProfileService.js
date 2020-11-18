@@ -2,7 +2,7 @@ import http from './httpServices';
 
 const apiEndPoint = process.env.apiUrl + '/dashboard/profile';
 
-export const merchantProfileForm = (user) => {
+export const addMerchantProfile = (user) => {
   const {
     name,
     family,
@@ -16,9 +16,14 @@ export const merchantProfileForm = (user) => {
     birthday,
     userId,
     city,
-    license,
+    nationalCardImage,
     profileImage,
     token,
+    businessCode,
+    merchantType,
+    businessName,
+    vatLicense,
+    licenseImage,
   } = user;
   const header = {
     headers: { Authorization: `Bearer ${token}` },
@@ -36,8 +41,13 @@ export const merchantProfileForm = (user) => {
   formData.append('birthday', birthday);
   formData.append('user_id', userId);
   formData.append('city_id', city);
-  formData.append('national_card_image', license);
+  formData.append('national_card_image', nationalCardImage);
   formData.append('profile_image', profileImage);
-  // console.log('formData', formData.get('profile_image'));
+  formData.append('business_name', businessName);
+  formData.append('type', merchantType);
+  formData.append('business_code', businessCode);
+  formData.append('vat_license', vatLicense);
+  formData.append('license_image', licenseImage);
+
   return http.post(apiEndPoint, formData, header);
 };

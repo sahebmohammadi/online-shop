@@ -4,34 +4,24 @@ import { getMerchantData } from 'services/getMerchantService';
 
 const SubListBadge = ({ name, id }) => {
   const [isProfile, setIsProfile] = useState(null);
-  const [isBusiness, setIsBusiness] = useState(null);
   //usEffect : decode token to get user Id
   useEffect(() => {
     getMerchant();
-  }, [isProfile, isBusiness]);
+  }, [isProfile]);
   const getMerchant = async () => {
     try {
-      const jwt = localStorage.getItem('token');
-      const { data: responseData } = await getMerchantData(jwt);
+      const token = localStorage.getItem('token');
+      const { data: responseData } = await getMerchantData(token);
       const { user } = responseData.data;
-      const { profile, business } = user[0];
+      const { profile } = user;
       setIsProfile(profile);
-      setIsBusiness(business);
     } catch (error) {}
   };
 
-  const condition = (id) => {
-    if (id === 1) {
-      return isProfile;
-    }
-    if (id === 2) {
-      return isBusiness;
-    }
-  };
   return (
     <>
       <span>{name}</span>
-      {!condition(id) ? <ErrorIcon color="error" /> : null}
+      {!isProfile ? <ErrorIcon color="error" /> : null}
     </>
   );
 };

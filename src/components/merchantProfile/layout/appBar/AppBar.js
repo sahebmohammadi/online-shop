@@ -142,10 +142,10 @@ export default function DenseAppBar(props) {
   }, []);
   const getMerchant = async () => {
     try {
-      const jwt = localStorage.getItem('token');
-      const { data: responseData } = await getMerchantData(jwt);
+      const token = localStorage.getItem('token');
+      const { data: responseData } = await getMerchantData(token);
       const { user } = responseData.data;
-      const { profile } = user[0];
+      const { profile } = user;
       setMerchantName(profile.name);
       setMerchantImage(profile.profile_image);
     } catch (error) {}
