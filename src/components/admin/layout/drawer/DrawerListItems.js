@@ -44,6 +44,7 @@ export const drawerListItems = [
     isExpand: false,
     id: uuid(),
     subListItems: [
+      { text: 'مدیریت ویژگی ‌ها', id: uuid(), link: '/admin/attributes' },
       { text: 'مدیریت دسته بندی ها', id: uuid(), link: '/merchant/profile' },
       { text: 'تنظیمات لندیگ', id: uuid(), link: '/merchant/businessProfile' },
     ],

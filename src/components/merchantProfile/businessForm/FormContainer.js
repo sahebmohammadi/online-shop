@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Formik, Form } from 'formik';
-import styles from '../form/formikContainer.module.scss';
+import styles from '../Form/formikContainer.module.scss';
 import * as Yup from 'yup';
 import Grid from '@material-ui/core/Grid';
 import * as constants from '../../../../constants';
-import FormikControl from '../form/FormikControl';
-import UploadFiles from '../form/UploadFiles';
+import FormikControl from '../Form/FormikControl';
+import UploadFiles from '../Form/UploadFiles';
 import { getMerchantData } from 'services/getMerchantService';
 import { merchantBusinessProfile } from 'services/merchantBusinessProfileService';
 import { toast } from 'react-toastify';

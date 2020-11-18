@@ -8,7 +8,6 @@ import MenuIcon from '@material-ui/icons/Menu';
 import clsx from 'clsx';
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
-import AccountCircle from '@material-ui/icons/AccountCircle';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import Badge from '@material-ui/core/Badge';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -16,17 +15,21 @@ import Menu from '@material-ui/core/Menu';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import Avatar from '@material-ui/core/Avatar';
 import { useRouter } from 'next/router';
+
 const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
+  toolbar: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    padding: '0'
   },
   grow: {
     flexGrow: 1,
   },
   menuButton: {
-    marginRight: 36,
+    marginLeft: '20px',
   },
   appBar: {
+    width: `100%`,
     display: 'flex',
     direction: 'row-reverse',
     boxShadow: 'none',
@@ -38,8 +41,6 @@ const useStyles = makeStyles((theme) => ({
     }),
   },
   appBarShift: {
-    marginRight: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
@@ -57,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
     padding: '20px 60px 15px 20px',
     boxSizing: 'border-box',
     textAlign: 'rtl',
-    width: '87% !important',
+    width: '100% !important',
     position: 'relative',
     backgroundColor: fade(theme.palette.secondary.main, 0.01),
     '&:hover': {
@@ -65,12 +66,8 @@ const useStyles = makeStyles((theme) => ({
     },
     borderRadius: '34px',
     boxShadow: '0 5px 10px 0 rgba(0, 0, 0, 0.1)',
-    margin: '24px 80px 0 0',
+    margin: '25px 0',
     fontSize: '20px',
-    [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing(3),
-      width: 'auto',
-    },
   },
   searchIcon: {
     right: '20px',
@@ -198,12 +195,14 @@ export default function DenseAppBar(props) {
   return (
     <div className={classes.root}>
       <AppBar
-        position="fixed"
+        position="static"
         className={clsx(classes.appBar, {
           [classes.appBarShift]: open,
         })}
       >
-        <Toolbar>
+        <Toolbar
+          className={classes.toolbar}
+        >
           <IconButton
             color="primary"
             aria-label="open drawer"
@@ -216,7 +215,9 @@ export default function DenseAppBar(props) {
             <MenuIcon />
           </IconButton>
 
-          <div className={classes.search}>
+          <div
+            className={classes.search}
+          >
             <div className={classes.searchIcon}>
               <SearchIcon />
             </div>

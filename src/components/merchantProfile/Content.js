@@ -2,15 +2,13 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import ToastHint from './Toast';
-import FormikContainer from './form/FormikContainer';
+import FormikContainer from './Form/FormikContainer';
 
 const useStyles = makeStyles((theme) => ({
   content: {
     backgroundColor: '#fff',
-    marginTop: '75px',
-    padding: '55px',
     flexGrow: 1,
-    width: '83.33%',
+    width: '100%',
   },
   paper: {
     width: '100%',

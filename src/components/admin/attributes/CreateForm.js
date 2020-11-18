@@ -2,10 +2,15 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Formik, Field, Form, FieldArray } from 'formik';
 import Select from 'react-select';
 import axios from 'axios';
+import useLocalStorage from 'src/utils/UseLocalStorage';
 import { Button } from '@material-ui/core';
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import ColorizeOutlinedIcon from '@material-ui/icons/ColorizeOutlined';
 import PublishOutlinedIcon from '@material-ui/icons/PublishOutlined';
+import CloseIcon from '@material-ui/icons/Close';
 import { ChromePicker } from 'react-color';
 import classes from 'src/components/admin/attributes/attributes.module.scss';
 
@@ -16,8 +21,14 @@ const CreateForm = () => {
   const [colorValue, setColorValue] = useState('');
   const [colorType, setColorType] = useState('color');
   const [image, setImage] = useState('');
+  const [editedImage, setEditedImage] = useState('');
+  const [editedColorValue, setEditedColorValue] = useState('');
   const [uploadPercentage, setUploadPercentage] = useState(0);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [selectedColor, setSelectedColor] = useLocalStorage('selectedColor', null);
+  const [editColorPicker, setEditColorPicker] = useState(false);
   const hiddenFileInput = useRef(null);
+  const hiddenEditFileInput = useRef(null);
   const [defaultColor, setDefaultColor] = useState({
     r: '0',
     g: '0',
@@ -49,6 +60,14 @@ const CreateForm = () => {
     setDisplayColorPicker(false);
   };
 
+  const editColorPickerClick = () => {
+    setEditColorPicker(!editColorPicker);
+  };
+
+  const editColorPickerClose = () => {
+    setEditColorPicker(false);
+  };
+
   const uploadFile = ({ target: { files } }) =>{
     let data = new FormData();
     data.append( 'file', files[0] )
@@ -65,12 +84,38 @@ const CreateForm = () => {
     }
 
     axios.post("https://run.mocky.io/v3/95f3d373-b9fa-4b07-8943-e516f89be07f", data, options).then(res => {
-        setImage(res.config.url);
-        setColorValue(res.config.url);
-        setUploadPercentage(100);
-        setTimeout(() => {
-          setUploadPercentage(0);
-        }, 1000);
+      setImage(res.config.url);
+      setColorValue(res.config.url);
+      setUploadPercentage(100);
+      setTimeout(() => {
+        setUploadPercentage(0);
+      }, 1000);
+    })
+  }
+
+  const editUploadFile = ({ target: { files } }) =>{
+    let data = new FormData();
+    data.append( 'file', files[0] )
+
+    const options = {
+      timeout: 300000,
+      onUploadProgress: (progressEvent) => {
+        const {loaded, total} = progressEvent;
+        let percent = Math.floor( (loaded * 100) / total )
+        if( percent < 100 ){
+          setUploadPercentage(percent)
+        }
+      }
+    }
+
+    axios.post("https://run.mocky.io/v3/95f3d373-b9fa-4b07-8943-e516f89be07f", data, options).then(res => {
+      setEditedImage(res.config.url);
+      setEditedColorValue(res.config.url);
+      setSelectedColor({...selectedColor, value: res.config.url});
+      setUploadPercentage(100);
+      setTimeout(() => {
+        setUploadPercentage(0);
+      }, 1000);
     })
   }
 
@@ -83,6 +128,10 @@ const CreateForm = () => {
     dropdown: [],
     color: [],
   };
+
+  const editModalCloseHandler = () => {
+    setShowEditModal(false);
+  }
 
   return (
     <Formik
@@ -208,7 +257,11 @@ const CreateForm = () => {
                     </div>
                     <div className={classes.colorFormGroup}>
                       <label className={classes.label}>مقدار</label>
-                      <input name={`color.value`} value={colorValue} onChange={e => setColorName(e.target.value)}/>
+                      <input
+                        name={`color.value`}
+                        value={colorValue}
+                        onChange={e => setColorName(e.target.value)}
+                      />
                     </div>
                     {
                       colorType === "color" ? (
@@ -280,6 +333,7 @@ const CreateForm = () => {
                           type: colorType
                         };
                         props.values.color.push(obj);
+                        console.log(props.values.color);
                         setColorName("");
                         setColorValue("");
                       }}
@@ -291,7 +345,9 @@ const CreateForm = () => {
                     {
                       props.values.color &&
                       props.values.color.length > 0 &&
-                      props.values.color.map((color, index) => (
+                      props.values.color.map((color, index) => {
+                        let colorData = JSON.stringify(color);
+                        return (
                         <li key={index}>
                           <div>
                             {color.name}
@@ -320,6 +376,13 @@ const CreateForm = () => {
                             className={classes.editButton}
                             variant="contained"
                             type="button"
+                            data-color={colorData}
+                            onClick={(e) => {
+                              let obj = JSON.parse(e.target.getAttribute('data-color'));
+                              obj.index = index;
+                              setSelectedColor(obj);
+                              setShowEditModal(true);
+                            }}
                           >
                             ویرایش
                           </Button>
@@ -336,8 +399,139 @@ const CreateForm = () => {
                           >
                             حذف
                           </Button>
+                          <Dialog
+                            open={showEditModal}
+                            className={classes.editModal}
+                            fullWidth={true}
+                            maxWidth='lg'
+                            onClose={editModalCloseHandler}
+                            PaperProps={{
+                              style: {
+                                position: 'static',
+                                overflow: 'visible'
+                              },
+                            }}
+                          >
+                            <DialogTitle className={classes.editModalHeader}>
+                              <CloseIcon
+                                onClick={() => {
+                                  setShowEditModal(false);
+                                }}
+                              />
+                            </DialogTitle>
+                            <DialogContent className={classes.editModalBody}>
+                              <div className={classes.colorForm}>
+                                <div className={classes.colorFormGroup}>
+                                  <label className={classes.label}>نام</label>
+                                  <input
+                                    value={selectedColor !== undefined ? selectedColor.name : ''}
+                                    onChange={e => {
+                                      setSelectedColor({...selectedColor, name: e.target.value});
+                                    }}
+                                  />
+                                </div>
+                                <div className={classes.colorFormGroup}>
+                                  <label className={classes.label}>نوع</label>
+                                  <Select
+                                    options={[
+                                      { value: 1, label: 'کد رنگ', type: 'color' },
+                                      { value: 2, label: 'عکس', type: 'image' }
+                                    ]}
+                                    defaultValue={selectedColor !== undefined && selectedColor.type === 'color' ? {label: "کد رنگ", type: "color", value: 1} : { value: 2, label: 'عکس', type: 'image' }}
+                                    isSearchable={false}
+                                    placeholder=""
+                                    noOptionsMessage={() => "مقداری وجود ندارد"}
+                                    onChange={(option) => {
+                                      setSelectedColor({...selectedColor, type: option.type});
+                                    }}
+                                  />
+                                </div>
+                                <div className={classes.colorFormGroup}>
+                                  <label className={classes.label}>مقدار</label>
+                                  <input
+                                    name={`color.value`}
+                                    value={selectedColor !== undefined && editedColorValue === '' && editedImage === '' ? selectedColor.value : editedImage !== '' ? editedImage : editedColorValue}
+                                    onChange={e => {
+                                      setSelectedColor({...selectedColor, value: e.target.value});
+                                    }}
+                                  />
+                                </div>
+                                {
+                                  selectedColor !== undefined && selectedColor.type === "color" ? (
+                                    <Button
+                                      className={classes.colorButton}
+                                      variant="contained"
+                                      startIcon={<ColorizeOutlinedIcon/>}
+                                      type="button"
+                                      onClick={() => {
+                                        editColorPickerClick();
+                                      }}
+                                    >
+                                      انتخاب
+                                    </Button>
+                                  ) : (
+                                    <Button
+                                      className={classes.photoButton}
+                                      variant="contained"
+                                      startIcon={<PublishOutlinedIcon/>}
+                                      type="button"
+                                      onClick={() => {
+                                        hiddenEditFileInput.current.click();
+                                      }}
+                                    >
+                                      آپلود
+
+                                      <input
+                                        style={{display: 'none'}}
+                                        type="file"
+                                        accept="image/*"
+                                        ref={hiddenEditFileInput}
+                                        onChange={editUploadFile}
+                                      />
+                                      {
+                                        uploadPercentage !== 0 ? (
+                                          <CircularProgress variant="static" value={uploadPercentage} size={24} color='secondary' style={{marginRight: '10px'}} />
+                                        ) : (
+                                          <React.Fragment />
+                                        )
+                                      }
+                                    </Button>
+                                  )
+                                }
+                                {
+                                  editColorPicker ?
+                                    <div className={classes.colorPickerPopover}>
+                                      <div className={classes.colorPickerCover} onClick={() => {
+                                        editColorPickerClose();
+                                      }}/>
+                                      <ChromePicker
+                                        color={defaultColor}
+                                        onChange={(color) => setDefaultColor(color)}
+                                        onChangeComplete={color => {
+                                          setSelectedColor({...selectedColor, value: color.hex});
+                                        }}
+                                      />
+                                    </div>
+                                    : null
+                                }
+                                <Button
+                                  className={selectedColor.name === '' || selectedColor.name === '' ? classes.registerButtonDisabled : classes.registerButton}
+                                  variant="contained"
+                                  color="primary"
+                                  type="button"
+                                  onClick={() => {
+                                    const {index, ...updatedObj} = selectedColor;
+                                    props.setFieldValue(`color[${index}]`, updatedObj);
+                                    setShowEditModal(false);
+                                  }}
+                                >
+                                  ذخیره
+                                </Button>
+                              </div>
+                            </DialogContent>
+                          </Dialog>
                         </li>
-                      ))
+                      )})
                     }
                   </ul>
                 </React.Fragment>
