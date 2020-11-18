@@ -3,9 +3,8 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
   content: {
     backgroundColor: '#fff',
-    margin: '110px 35px',
     flexGrow: 1,
-    width: '83.33%',
+    width: '100%',
   },
 }));
 

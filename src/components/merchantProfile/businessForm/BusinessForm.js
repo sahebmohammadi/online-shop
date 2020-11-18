@@ -5,10 +5,8 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
   content: {
     backgroundColor: '#fff',
-    marginTop: '75px',
-    padding: '55px',
     flexGrow: 1,
-    width: '83.33%',
+    width: '100%',
   },
 }));
 

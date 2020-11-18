@@ -1,10 +1,3 @@
-.content {
-  background-color: #fff;
-  margin: 110px 35px;
-  flex-grow: 1;
-  width: 83.33%;
-}
-
 .paper {
   width: 100%;
   padding: 100px;
@@ -250,6 +243,10 @@
 .editButton {
   color: #fff !important;
   background-color: #ffc663 !important;
+
+  span {
+    pointer-events: none;
+  }
 }
 
 .colorPickerPopover {
@@ -299,5 +296,28 @@
       height: 38px;
       border-radius: 10px;
     }
+  }
+}
+
+.editModalHeader {
+  text-align: left;
+
+  svg {
+    cursor: pointer;
+  }
+}
+
+.editModalBody {
+  padding: 10px 20px 40px !important;
+  height: 200px;
+}
+
+.editModal {
+  position: relative;
+
+  .colorPickerPopover {
+    position: absolute;
+    z-index: 2;
+    left: auto;
   }
 }

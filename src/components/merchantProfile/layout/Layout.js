@@ -3,36 +3,15 @@ import AppBar from './appBar/AppBar';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import IconButton from '@material-ui/core/IconButton';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import DrawerList from './drawer/DrawerList';
 
-const drawerWidth = 230;
+const drawerWidth = 248;
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
-  },
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-  },
-  appBarShift: {
-    marginRight: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  menuButton: {
-    marginRight: 36,
-  },
-  hide: {
-    display: 'none',
+    backgroundColor : "#fff"
   },
   drawer: {
     width: drawerWidth,
@@ -54,7 +33,6 @@ const useStyles = makeStyles((theme) => ({
   drawerClose: {
     boxShadow: '0 5px 10px 0 rgba(0, 0, 0, 0.1)',
     border: 'none',
-
     backgroundColor: '#efefef',
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
@@ -86,16 +64,22 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     backgroundColor: '#fff',
-    marginTop: '55px',
     padding: '0',
     flexGrow: 1,
-    width: '83.33%',
-    padding: theme.spacing(3),
+    width: '100%',
   },
   paper: {
     width: '100%',
     padding: '100px',
   },
+  main: {
+    width: '100%',
+    height: '100%',
+    margin: '0 30px 30px',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'start'
+  }
 }));
 
 const Layout = ({ children }) => {
@@ -110,8 +94,6 @@ const Layout = ({ children }) => {
 
   return (
     <div className={classes.root}>
-      <CssBaseline />
-      <AppBar open={open} handleDrawerOpen={handleDrawerOpen} />
       <Drawer
         anchor="right"
         variant="permanent"
@@ -133,8 +115,10 @@ const Layout = ({ children }) => {
         </div>
         <DrawerList isDrawerOpen={open} />
       </Drawer>
-      <div className={classes.toolbar} />
-      {children}
+      <div className={classes.main}>
+        <AppBar open={open} handleDrawerOpen={handleDrawerOpen} />
+        {children}
+      </div>
     </div>
   );
 };
