@@ -5,9 +5,10 @@ import SelectProvinceCity from '../../../merchantProfile/form/SelectProvinceCity
 import { Formik, Form } from 'formik';
 import * as constants from '../../../../../constants';
 import styles from '../../../merchantProfile/form/formikContainer.module.scss';
-import DisplayImage from './DisplayImage';
+import DisplayImage from '../../../../common/DisplayImage';
 import { Grid } from '@material-ui/core';
 const ProfileForm = ({ profile }) => {
+  const provinceName = ''
   //props :
   const {
     name,
@@ -16,14 +17,14 @@ const ProfileForm = ({ profile }) => {
     national_code: nationalCode,
     email,
     tel,
-    address,
-    postal_code: postalCode,
+    address: addressObject,
     phone,
     birthday,
-    city_id: cityId,
     national_card_image,
     profile_image,
   } = profile || {};
+  const { address, postal_code: postalCode, city: cityObject } = addressObject;
+  const { state_id: stateId, id: cityId, name: cityName } = cityObject;
   //  initial values
   const initialValues = {
     name: name,
@@ -34,8 +35,9 @@ const ProfileForm = ({ profile }) => {
     address: address,
     postalCode: postalCode,
     phone: phone,
+    cityName: cityName,
+    provinceName: '',
   };
-  const [city, setCity] = useState(cityId);
   //  Form Contants :
   const { merchantForm } = constants.MerchantProfile;
   const { forms } = constants;
@@ -147,13 +149,37 @@ const ProfileForm = ({ profile }) => {
                   />
                 </div>
               </Grid>
-              <Grid item container xs={12}>
+              <Grid item xs={12} md={6}>
+                <div className={styles.inputGroup}>
+                  <FormikControl
+                    control="input"
+                    type="text"
+                    label={merchantForm.province}
+                    name="provinceName"
+                    value={provinceName ? provinceName : ' '}
+                    disabled={true}
+                  />
+                </div>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <div className={styles.inputGroup}>
+                  <FormikControl
+                    control="input"
+                    type="text"
+                    label={merchantForm.city}
+                    name="cityName"
+                    value={cityName ? cityName : ' '}
+                    disabled={true}
+                  />
+                </div>
+              </Grid>
+              {/* <Grid item container xs={6}>
                 <SelectProvinceCity
                   cityLabel={merchantForm.city}
                   provinceLabel={merchantForm.province}
                   setCity={setCity}
                 />
-              </Grid>
+              </Grid> */}
               <Grid item xs={12}>
                 <div className={styles.inputGroup}>
                   <FormikControl

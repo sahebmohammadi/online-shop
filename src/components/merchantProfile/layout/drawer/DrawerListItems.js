@@ -43,11 +43,11 @@ export const drawerListItems = [
         id: uuid(),
         link: '/merchant/profile',
       },
-      {
-        text: <SubListBadge name="اطلاعات تجاری" id = {2}/>,
-        id: uuid(),
-        link: '/merchant/businessProfile',
-      },
+      // {
+      //   text: <SubListBadge name="اطلاعات تجاری" id = {2}/>,
+      //   id: uuid(),
+      //   link: '/merchant/businessProfile',
+      // },
     ],
   },
 ];

@@ -5,7 +5,12 @@ import Select from 'react-select';
 import classes from './selectProvinceCity.module.scss';
 import Grid from '@material-ui/core/Grid';
 
-const SelectProvinceCity = ({ setCity, cityLabel, provinceLabel }) => {
+const SelectProvinceCity = ({
+  setCity,
+  cityLabel,
+  provinceLabel,
+  defaultProvince,
+}) => {
   const [selectStates, setSelectStates] = useState([]);
   const [selectedState, setSelectedState] = useState({});
   const [selectCities, setSelectCities] = useState([]);
@@ -14,7 +19,7 @@ const SelectProvinceCity = ({ setCity, cityLabel, provinceLabel }) => {
 
   useEffect(() => {
     geState();
-  }, []);
+  }, [defaultProvince]);
   useEffect(() => {
     getCity(stateId);
   }, [stateId]);
@@ -29,6 +34,12 @@ const SelectProvinceCity = ({ setCity, cityLabel, provinceLabel }) => {
         label: d.name,
       }));
       setSelectStates(options);
+      if (defaultProvince) {
+        setSelectedState({
+          value: defaultProvince,
+          label: options[defaultProvince - 1].label,
+        });
+      }
     } catch (error) {
       console.log(error);
     }
@@ -52,7 +63,8 @@ const SelectProvinceCity = ({ setCity, cityLabel, provinceLabel }) => {
   };
 
   const handleChangeState = (e) => {
-    setSelectedState({ id: e.value, name: e.label });
+    setSelectedState({ value: e.value, label: e.label });
+    console.log(e);
     // setProvince(e);
     setStateId(e.value);
   };
@@ -80,6 +92,9 @@ const SelectProvinceCity = ({ setCity, cityLabel, provinceLabel }) => {
         <div className={classes.formControl}>
           <label>{provinceLabel}</label>
           <Select
+            // value={selectStates.filter((option) => option.value === 12)}
+            // value={selectStates[13]}
+            value={selectedState}
             instanceId={provinceLabel}
             styles={style}
             className={classes.select}

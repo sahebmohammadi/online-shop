@@ -1,5 +1,5 @@
 import { DropzoneArea } from 'material-ui-dropzone';
-import classes from './uploadFiles.module.scss';
+import classes from './storeImageUpload.module.scss';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 const theme = createMuiTheme({
@@ -7,14 +7,11 @@ const theme = createMuiTheme({
     MuiDropzonePreviewList: {
       image: {
         maxWidth: 'none',
-        // width: '100px',
-        // height: 'auto',
-        // zIndex : '999'
         position: 'absolute',
         top: '-72px',
         right: '31px',
-        width: '184px',
-        height: '104px',
+        width: '60vw',
+        height: '259px',
       },
       imageContainer: {
         marginTop: '10px',
@@ -29,8 +26,8 @@ const theme = createMuiTheme({
         borderRadius: '10px',
         border: 'dashed  2px #707070',
         backgroundColor: '#f0f0f0',
-        width: '184px',
-        height: '104px !important',
+        width: '98%',
+        height: '259px !important',
       },
       text: {
         margin: '18px 0 !important',
@@ -55,7 +52,7 @@ const theme = createMuiTheme({
   },
 });
 
-const UploadFiles = ({ label, hint, setUploadedData}) => {
+const UploadFiles = ({ label, hint, setUploadedData }) => {
   const handleChange = (files) => {
     setUploadedData(files[0]);
   };

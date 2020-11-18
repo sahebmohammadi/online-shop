@@ -5,17 +5,18 @@ import Grid from '@material-ui/core/Grid';
 import * as constants from '../../../../../constants';
 import FormikControl from '../../../merchantProfile/form/FormikControl';
 import StatusCheck from '../../../../common/StatusCheck';
-import DisplayImage from './DisplayImage';
+import { getMerchantData } from 'services/getMerchantService';
+import DisplayImage from '../../../../common/DisplayImage';
 import { Typography } from '@material-ui/core';
-const BusinessForm = ({ business }) => {
+const BusinessForm = ({ profile }) => {
   const {
-    name,
-    type,
-    business_code: businessCode,
-    vat_license: vatLicense,
+    business_name : businessName,
+    type : merchantType,
+    business_code : businessCode,
+    vat_license : vatLicense,
     license_image,
     status: storeStatus = 0,
-  } = business || {};
+  } = profile || {};
   // states :
   // const [storeStatus, setStoreStatus] = useState(0);
   //usEffect : decode token to get user Id
@@ -35,14 +36,14 @@ const BusinessForm = ({ business }) => {
   //  initial values
   const initialValues = {
     businessCode: businessCode,
-    merchantType: type,
-    storeName: name,
+    merchantType:merchantType,
+    businessName: businessName,
     vatLicense: String(vatLicense),
   };
 
   return (
     <div style={{ paddingRight: '62px' }}>
-      {!business ? <Typography>پروفایل کاربری هنوز تایید نشده است</Typography> : null}
+      {!profile ? <Typography>پروفایل کاربری هنوز تایید نشده است</Typography> : null}
       <Formik initialValues={initialValues}>
         {(formik) => (
           <Form>
@@ -82,10 +83,10 @@ const BusinessForm = ({ business }) => {
                 <FormikControl
                   control="input"
                   type="text"
-                  label={businessForm.storeName}
-                  name="storeName"
+                  label={businessForm.businessName}
+                  name="businessName"
                   placeholder="دکوژ"
-                  value={name ? name : ' '}
+                  value={businessName ? businessName : " "}
                   disabled={true}
                 />
               </Grid>

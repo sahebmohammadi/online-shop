@@ -28,17 +28,17 @@ const options = [
 ];
 const toastStatus = (status) => {
   switch (status) {
-    case '0':
+    case 0:
       return toast.error(error);
       break;
-    case '1':
+    case 1:
       return toast.warn(warn);
       break;
-    case '2':
+    case 2:
       return toast.success(success);
       break;
     default:
-      return ' ';
+      return '';
       break;
   }
 };
@@ -68,12 +68,13 @@ const MerchantManagmentHeader = () => {
       const id = router.query.id;
       const token = localStorage.getItem('token');
       const { data: responseData } = await activateMerchantProfile(token, id, newStatus);
-      const { profile } = responseData.data;
+      const { user } = responseData.data;
+      const { profile } = user;
+      console.log(profile.status);
       toastStatus(profile.status);
     } catch (error) {}
   };
   const handleDeteleMerchant = async () => {
-    console.log('delete clicked');
     try {
       const id = router.query.id;
       const token = localStorage.getItem('token');

@@ -3,11 +3,8 @@ import { Field, ErrorMessage } from 'formik';
 import classes from './input.module.scss';
 import clsx from 'classnames';
 const Input = (props) => {
-  const { label, name, placeholder, value, disabled, ...rest } = props;
-  // const [address, setAddress] = useState(false);
-  // if (name === 'address') {
-  //   setAddress(!address);
-  // }
+  const { label, name, placeholder, value, disabled, onChange, ...rest } = props;
+  // if(label ==="address")
   return (
     <div className={classes.formControl}>
       <label htmlFor={name}>{label}</label>
@@ -18,8 +15,9 @@ const Input = (props) => {
         {...rest}
         placeholder={placeholder}
         disabled={disabled}
-        // className={clsx(classes.input, { [classes.address]: address })}
-        className={classes.input}
+        onChange={onChange}
+        className={clsx(classes.input, { [classes.address]: name == 'address' })}
+        // className={classes.input}
       />
       <ErrorMessage name={name} component="div" className={classes.validationError} />
     </div>
