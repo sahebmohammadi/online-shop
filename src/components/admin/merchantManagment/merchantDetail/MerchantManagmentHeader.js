@@ -7,7 +7,7 @@ import clx from 'classnames';
 import { activateMerchantProfile } from 'services/activateMerchantProfileService';
 import { toast } from 'react-toastify';
 import { merchantDetail } from '../../../../../constants';
-
+import FormDialog from './FormDialog';
 const { header, toasts } = merchantDetail;
 const { error, warn, success } = toasts;
 const {
@@ -58,6 +58,9 @@ const style = {
 
 const MerchantManagmentHeader = () => {
   const [status, setStatus] = useState(null);
+  // ? dialog state
+  const [open, setOpen] = useState(false);
+  const [message,setMessage] = useState(null);
   const router = useRouter();
 
   const handleChange = (e) => {
@@ -65,32 +68,52 @@ const MerchantManagmentHeader = () => {
   };
   const handleMerchantStatus = async (newStatus) => {
     try {
-      const id = router.query.id;
-      const token = localStorage.getItem('token');
-      const { data: responseData } = await activateMerchantProfile(token, id, newStatus);
-      const { user } = responseData.data;
-      const { profile } = user;
-      console.log(profile.status);
-      toastStatus(profile.status);
-    } catch (error) {}
-  };
-  const handleDeteleMerchant = async () => {
-    try {
-      const id = router.query.id;
-      const token = localStorage.getItem('token');
-      const { data: responseData } = await activateMerchantProfile(token, id, '0');
-      const { profile } = responseData.data;
-      toastStatus(profile.status);
+      // newStatus === '0' && await handleClickOpen();
+    if(newStatus === '0'){
+      handleClickOpen();
+      }else{
+        const id = router.query.id;
+        const token = localStorage.getItem('token');
+        const { data: responseData } = await activateMerchantProfile(token, id, newStatus);
+        const { user } = responseData.data;
+        const { profile } = user;
+        // console.log(profile.status);
+        toastStatus(profile.status);
+      }
     } catch (error) {}
   };
 
+ // ? handler for Dialog
+ const handleClickOpen = () => {
+  setOpen(true);
+};
+
+const handleClose = () => {
+  setOpen(false);
+};
+const handleDeleteMerchant =async()=>{
+  try {
+      const id = router.query.id;
+      const token = localStorage.getItem('token');
+      const { data: responseData } = await activateMerchantProfile(token, id, '0', message);
+      const { user } = responseData.data;
+      const { profile } = user;
+      // console.log(profile.status);
+      toastStatus(profile.status);
+    } catch (error) {}
+    setOpen(false)
+}
+const handleRemoveMerchant =async()=>{
+ await handleMerchantStatus('0');
+}
   return (
     <div>
+    <FormDialog open = {open} onClose = {handleClose} setMessage = {setMessage} message = {message} onDelete = {handleDeleteMerchant}/>
       <div className={classes.header}>
         <p>{title} </p>
         <div className={classes.buttonGroup}>
           <button
-            onClick={handleDeteleMerchant}
+            onClick={handleRemoveMerchant}
             className={clx(classes.delete, classes.button)}
           >
             {remove}
