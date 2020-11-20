@@ -100,7 +100,7 @@ const MerchantManagmentHeader = () => {
               <button className={classes.button}>{store}</button>
             </a>
           </Link>
-          <Link href="/admin/merchantManagment">
+          <Link href="/admin/merchant-managment">
             <a>
               <button className={classes.button}>{back}</button>
             </a>

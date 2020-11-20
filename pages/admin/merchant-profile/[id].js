@@ -28,9 +28,8 @@ const MerchantDetail = () => {
       const id = router.query.id;
       const { data: responseData } = await getOneMerchant(token, id);
       const { user } = responseData.data;
-      const {profile} = user;
+      const { profile } = user;
       setProfile(profile);
-      console.log({ profile});
     } catch (error) {}
   };
   return (

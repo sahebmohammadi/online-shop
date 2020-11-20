@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getMerchantData } from 'services/getMerchantService';
-import { merchantProfileForm } from 'services/merchantProfileService';
+import { addMerchantProfile } from 'services/merchantProfileService';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import Grid from '@material-ui/core/Grid';
@@ -90,7 +90,7 @@ const Store = () => {
     };
     // CALL THE SERVER
     try {
-      const response = await merchantProfileForm(allValues);
+      const response = await addMerchantProfile(allValues);
       const { data } = response;
       toast.success(data.message);
     } catch (ex) {}

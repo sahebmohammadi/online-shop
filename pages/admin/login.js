@@ -10,7 +10,7 @@ const Login = () => {
   const router = useRouter();
   // useEffect :
   useEffect(() => {
-    RedirectUser(router, 'merchantManagment');
+    RedirectUser(router, 'merchant-managment');
   }, []);
   return (
     <BackgroundLayout>

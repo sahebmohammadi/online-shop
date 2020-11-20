@@ -12,7 +12,7 @@ const admin = () => {
   const router = useRouter();
   // useEffect :
   useEffect(() => {
-    RedirectUser(router, 'merchantManagment','/admin/login');
+    RedirectUser(router, 'merchant-managment', '/admin/login');
   }, []);
   return (
     <Layout>

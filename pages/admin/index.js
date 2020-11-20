@@ -7,7 +7,7 @@ const AdminDashboard = () => {
   const router = useRouter();
 
   useEffect(() => {
-    RedirectUser(router, 'merchantManagment');
+    RedirectUser(router, 'merchant-managment');
   }, []);
 
   return <Layout>دشبورد ادمین</Layout>;

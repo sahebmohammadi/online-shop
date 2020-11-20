@@ -8,7 +8,6 @@ const RedirectUser = async (router, pageLink, notAuthorized = null) => {
       const { user } = responseData.data;
       const { type } = user[0];
       if (type === 'admin') {
-        // router.push(`/admin/${link}`);
         router.push(`/admin/${pageLink}`);
       } else {
         router.push(`/merchant/${pageLink}`);

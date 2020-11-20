@@ -120,8 +120,8 @@ const MerchantTable = () => {
                   </TableCell> */}
                   <TableCell className={classes.tableCell}>
                     <LinkComponent
-                      as={`/admin/merchantProfile/${merchantId}`}
-                      href="/admin/merchantProfile/[id]"
+                      as={`/admin/merchant-profile/${merchantId}`}
+                      href="/admin/merchant-profile/[id]"
                       name="پروفایل"
                     >
                       {/* <a>profile</a> */}
@@ -130,8 +130,8 @@ const MerchantTable = () => {
                   <TableCell className={classes.tableCell}>
                     <LinkComponent
                       name="فروشگاه"
-                      as={`/admin/merchantStore/${merchantId}`}
-                      href="/admin/merchantStore/[id]"
+                      as={`/admin/merchant-store/${merchantId}`}
+                      href="/admin/merchant-store/[id]"
                     />
                   </TableCell>
                   <TableCell className={classes.tableCell}>
