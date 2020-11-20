@@ -138,7 +138,6 @@ export const merchantDetail = {
     success: 'پروفایل پیشه ور با موفقیت تایید شد',
   },
 };
-
 export const merchantStore = {
   managment: 'مدیریت فروشگاه',
   name: 'نام فروشگاه / برند',
