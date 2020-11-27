@@ -1,7 +1,9 @@
-import React from 'react';
-import { rows, columns } from 'src/components/admin/attributes/Data';
+import React, {useState, useEffect} from 'react';
+import Link from 'next/link';
 import DeleteComponent from 'src/common/Delete';
 import EditComponent from 'src/common/Edit';
+import uuid from 'react-uuid';
+import axios from 'axios';
 import classes from 'src/components/admin/attributes/attributes.module.scss';
 import {
   Table,
@@ -13,6 +15,40 @@ import {
 } from '@material-ui/core';
 
 const AttributesTable = () => {
+  const [attributes, setAttributes] = useState([]);
+  const columns = [
+    { name: '#', id: uuid() },
+    { name: 'نام ویژگی', id: uuid() },
+    { name: 'نوع ویژگی', id: uuid() },
+    { name: 'واحد', id: uuid() },
+    { name: 'عملیات', id: uuid() },
+  ];
+
+  let all_attributes = [];
+
+  const getAttributes = async () => {
+    try {
+      const res = await axios.get(`${process.env.apiUrl}/attribute`);
+      setAttributes(res.data.data.attribute);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getAttributes();
+  }, []);
+
+  if (attributes !== [] && attributes !== undefined) {
+    attributes.map((item, index) => {
+      all_attributes.push({
+        id: item.id,
+        name: item.name,
+        type: item.type.name,
+        unit: item.unit !== null  ? item.unit.name : 'ندارد'
+      });
+    })
+  }
 
   return (
     <>
@@ -31,31 +67,39 @@ const AttributesTable = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((item, index) => {
-                const { number, name, type, unit } = item;
+            {attributes !== [] && attributes !== undefined ? all_attributes.map((item, index) => {
+                const { id, name, type, unit } = item;
                 return (
-                  <TableRow>
-                    <TableCell key={number} className={classes.tableBodyCell} size='small'>
-                      {number}
+                  <TableRow key={id}>
+                    <TableCell className={classes.tableBodyCell} size='small'>
+                      {id}
                     </TableCell>
-                    <TableCell key={number} className={classes.tableBodyCell}>
+                    <TableCell className={classes.tableBodyCell}>
                       {name}
                     </TableCell>
-                    <TableCell key={number} className={classes.tableBodyCell}>
+                    <TableCell className={classes.tableBodyCell}>
                       {type}
                     </TableCell>
-                    <TableCell key={number} className={classes.tableBodyCell}>
+                    <TableCell className={classes.tableBodyCell}>
                       {unit}
                     </TableCell>
-                    <TableCell key={number} className={classes.tableBodyCell}>
+                    <TableCell className={classes.tableBodyCell}>
                       <div className={classes.actionCell}>
-                        <EditComponent />
+                        <Link href={`/admin/attribute/${id}`}>
+                          <a href={`/admin/attribute/${id}`}>
+                            <EditComponent/>
+                          </a>
+                        </Link>
                         <DeleteComponent />
                       </div>
                     </TableCell>
                   </TableRow>
                 );
-            })}
+            }) :
+            <TableRow>
+              Nothing
+            </TableRow>
+            }
           </TableBody>
         </Table>
       </TableContainer>

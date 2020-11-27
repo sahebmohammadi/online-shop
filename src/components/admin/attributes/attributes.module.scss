@@ -123,9 +123,10 @@
 .input {
   width: 100%;
   height: 37px;
-  padding: 5px !important;
+  padding: 5px 10px !important;
   border-radius: 10px;
   border: solid 1px #979797;
+  font-family: Shabnam,Roboto,"Helvetica Neue",Arial,sans-serif !important;
   &:focus {
     outline: none;
   }
@@ -204,6 +205,10 @@
   font-size: 16px !important;
   margin-top: 70px !important;
   padding: 5px 30px !important;
+}
+
+.submitButtonHidden {
+  display: none !important;
 }
 
 .deleteButton {
