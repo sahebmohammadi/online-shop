@@ -29,7 +29,7 @@ export const drawerListItems = [
     icon: <ListIcon iconName="merchantManagment.svg" />,
     isExpand: false,
     id: uuid(),
-    subListItems: null,
+    subListItems: [{text: 'فروشگاه', id: uuid(), link: '/merchant/store'}],
   },
 
   {
@@ -39,15 +39,10 @@ export const drawerListItems = [
     id: uuid(),
     subListItems: [
       {
-        text: <SubListBadge name="اطلاعات کاربری" id = {1} />,
+        text: <SubListBadge name="اطلاعات کاربری" id={1} />,
         id: uuid(),
         link: '/merchant/profile',
       },
-      // {
-      //   text: <SubListBadge name="اطلاعات تجاری" id = {2}/>,
-      //   id: uuid(),
-      //   link: '/merchant/businessProfile',
-      // },
     ],
   },
 ];

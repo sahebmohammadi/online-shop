@@ -73,11 +73,12 @@ const UploadFiles = ({ label, hint, setUploadedData, initialImage }) => {
     <>
       <MuiThemeProvider theme={theme}>
         <div className={classes.formControl}>
-          {typeof initialImage === "string"  ?
-          <div className={classes.exImage}>
-            <img src={initialImage} alt=""></img>
-          </div> : null}
-         <label>
+          {typeof initialImage === 'string' ? (
+            <div className={classes.exImage}>
+              <img src={initialImage} alt=""></img>
+            </div>
+          ) : null}
+          <label>
             {label} <span style={{ color: 'red !important' }}>*</span>
           </label>
           <div className={classes.uploadContainer}>

@@ -57,7 +57,7 @@ const MerchantTable = () => {
         const { data: userData } = data;
         const { user: merchantsData } = userData;
         setRowData(merchantsData);
-        console.log(merchantsData);
+        // console.log(merchantsData);
         toast.success(data.message);
       } catch (error) {}
     };

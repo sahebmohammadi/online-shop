@@ -20,7 +20,7 @@ const MerchantDetail = () => {
   useEffect(() => {
     getOneMerchantData();
     console.log(router.query);
-    // RedirectUser(router, 'merchantPofile','/admin/login');
+    // RedirectUser(router, 'merchant-pofile','/admin/login');
   }, []);
   const getOneMerchantData = async () => {
     try {
@@ -36,7 +36,7 @@ const MerchantDetail = () => {
     <Layout>
       <Content>
         <MerchantManagment>
-          <MerchantManagmentHeader />
+          <MerchantManagmentHeader merchantId = {router.query.id} />
         </MerchantManagment>
         <MerchantManagment>
           <Stepper activeStep={activeStep} setActiveStep={setActiveStep} steps={steps}>

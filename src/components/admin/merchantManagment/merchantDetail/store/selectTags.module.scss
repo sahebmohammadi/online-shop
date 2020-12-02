@@ -1,0 +1,36 @@
+.formControl {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 30px;
+  text-align: center;
+  width: 100%;
+  flex-direction: row;
+  direction: rtl;
+  label {
+    color: #122f61;
+    font: 'Shabnam' normal;
+    cursor: pointer;
+    align-items: center;
+    display: flex;
+    width: 115px;
+    position: relative;
+  }
+  .select {
+    border-radius: 10px;
+    outline: none;
+    border: solid 1px #979797;
+    box-sizing: border-box;
+    color: #052971;
+    font-size: 12px;
+    font-family: 'Shabnam';
+    &:placeholder {
+      font-family: 'Shabnam';
+      font-size: 12px;
+      color: #979797;
+    }
+    &:focus {
+      border-color: #052971;
+      outline: none;
+    }
+  }
+}

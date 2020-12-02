@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { getMerchantData } from 'services/getMerchantService';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import Grid from '@material-ui/core/Grid';
@@ -8,9 +7,8 @@ import FormikControl from './FormikControl';
 import DatePicker from './DatePicker';
 import SelectProvinceCity from './SelectProvinceCity';
 import UploadFiles from './UploadFiles';
-import { toast } from 'react-toastify';
 import styles from './formikContainer.module.scss';
-import DisplayImage from 'src/common/DisplayImage';
+import ToastHint from '../Toast';
 //  Form Contants :
 const { error, merchantForm } = constants.MerchantProfile;
 // Radio options :
@@ -29,7 +27,7 @@ const ProfileForm = ({ setMerchantProfileData, merchantProfileData }) => {
     name = '',
     family = '',
     gender = '1',
-    nationalCode = 'saheb',
+    nationalCode = '',
     tel = '',
     address: addressObject = '',
     phone = '',
@@ -40,7 +38,8 @@ const ProfileForm = ({ setMerchantProfileData, merchantProfileData }) => {
   } = merchantProfileData || {};
   const { address = '', postal_code: postalCode = '', city: cityObject } =
     addressObject || {};
-  const { state_id: stateId, id: ExCityId = '', name: defaultCityName = '' } = cityObject || {};
+  const { state_id: stateId, id: ExCityId = '', name: defaultCityName = '' } =
+    cityObject || {};
   useEffect(() => {
     setCity(ExCityId);
   }, [cityObject]);
@@ -105,6 +104,9 @@ const ProfileForm = ({ setMerchantProfileData, merchantProfileData }) => {
 
   return (
     <>
+      <Grid container xs={12}>
+        <ToastHint />
+      </Grid>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}

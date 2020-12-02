@@ -23,7 +23,6 @@
     "material-ui-dropzone": "^3.5.0",
     "moment-jalaali": "^0.9.2",
     "next": "^9.5.5",
-    "npm-upgrade": "^2.0.4",
     "react": "^16.14.0",
     "react-color": "^2.19.3",
     "react-datepicker2": "^3.3.13",
