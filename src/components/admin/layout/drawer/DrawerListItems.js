@@ -29,7 +29,9 @@ export const drawerListItems = [
     icon: <ListIcon iconName="merchantManagment.svg" />,
     isExpand: false,
     id: uuid(),
-    subListItems: null,
+    subListItems: [
+      { text: 'مدیریت  پیشه وران', id: uuid(), link: '/admin/merchant-managment' },
+    ],
   },
   {
     text: 'مالی',
@@ -45,8 +47,8 @@ export const drawerListItems = [
     id: uuid(),
     subListItems: [
       { text: 'مدیریت ویژگی ‌ها', id: uuid(), link: '/admin/attributes' },
-      { text: 'مدیریت دسته بندی ها', id: uuid(), link: '/merchant/profile' },
-      { text: 'تنظیمات لندیگ', id: uuid(), link: '/merchant/businessProfile' },
+      { text: 'مدیریت دسته بندی ها', id: uuid(), link: '#' },
+      { text: 'تنظیمات لندیگ', id: uuid(), link: '#' },
     ],
   },
   {

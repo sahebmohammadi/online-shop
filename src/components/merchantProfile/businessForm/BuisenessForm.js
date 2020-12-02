@@ -27,13 +27,13 @@ const BusinessForm = ({ merchantProfileData, setMerchantProfileData }) => {
   const {
     businessName = '',
     businessCode = '',
-    merchantType,
-    vatLicense,
+    merchantType = '0',
+    vatLicense = '0',
     licenseImage: ExLicenseImage,
   } = merchantProfileData || {};
   // states :
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [licenseImage, setLicenseImage] = useState(null);
+  const [licenseImage, setLicenseImage] = useState(ExLicenseImage);
   const [storeStatus, setStoreStatus] = useState(0);
 
   // ! COMPONENT WILL UNMOUNT
@@ -55,8 +55,10 @@ const BusinessForm = ({ merchantProfileData, setMerchantProfileData }) => {
   const initialValues = {
     businessCode: businessCode ? businessCode : '',
     businessName: businessName ? businessName : '',
-    merchantType: merchantType === '1' ? '1' : '0',
-    vatLicense: vatLicense === '1' ? '1' : '0',
+    // merchantType: merchantType == '1' ? '1' : '0',
+    merchantType: merchantType ? merchantType : '0',
+    // vatLicense: vatLicense == '1' ? '1' : '0',
+    vatLicense: vatLicense ? vatLicense : '0',
   };
   //  onSubmit
   const onSubmit = async (values) => {
@@ -93,6 +95,7 @@ const BusinessForm = ({ merchantProfileData, setMerchantProfileData }) => {
         enableReinitialize={true}
       >
         {(formik) => {
+      //  console.log(formik.values);
           return (
             <Form>
               <Grid item container xs={12}>
@@ -124,6 +127,7 @@ const BusinessForm = ({ merchantProfileData, setMerchantProfileData }) => {
                       label={businessForm.licenseImage}
                       hint={businessForm.hintLicenseImage}
                       setUploadedData={setLicenseImage}
+                      initialImage={licenseImage}
                     />
                   </div>
                 </Grid>
