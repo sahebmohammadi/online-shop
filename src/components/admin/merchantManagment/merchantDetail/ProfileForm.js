@@ -48,7 +48,7 @@ const ProfileForm = ({ profile }) => {
   ];
 
   return (
-    <div style={{ paddingRight: '62px' }}>
+    <div style={{ padding: '22px' }}>
       <Formik initialValues={initialValues}>
         {(formik) => (
           <Form>

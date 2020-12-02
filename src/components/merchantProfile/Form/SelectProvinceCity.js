@@ -47,6 +47,7 @@ const SelectProvinceCity = ({
       }
     }
   };
+
   useEffect(() => {
     getCity(stateId);
   }, [stateId]);
@@ -84,6 +85,14 @@ const SelectProvinceCity = ({
           label: d.name,
         }));
         setSelectCities(options);
+        // if (defaultCity) {
+        //   const city = options.find(({ value }) => value === defaultCity);
+        //   console.log('city', city);
+        //   setSelectedCity({
+        //     value: city.value,
+        //     label: city.label,
+        //   });
+        // }
       } catch (error) {
         console.log(error);
       }

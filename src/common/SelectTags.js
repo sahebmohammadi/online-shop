@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import Select from 'react-select';
-import classes from '../form/selectProvinceCity.module.scss';
+import classes from './selectTags.module.scss';
 import Grid from '@material-ui/core/Grid';
 import clx from 'classnames';
 
-const SelectComponent = ({ setSelectedValue, label, options }) => {
+const SelectComponent = ({ setSelectedValue, label, options}) => {
   const handleChange = (e) => {
     setSelectedValue(e);
-    console.log(e);
+    // console.log(e);
   };
 
   const style = {

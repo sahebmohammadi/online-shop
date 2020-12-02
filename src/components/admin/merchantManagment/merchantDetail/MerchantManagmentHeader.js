@@ -56,7 +56,7 @@ const style = {
   }),
 };
 
-const MerchantManagmentHeader = () => {
+const MerchantManagmentHeader = ({merchantId}) => {
   const [status, setStatus] = useState(null);
   // ? dialog state
   const [open, setOpen] = useState(false);
@@ -118,7 +118,8 @@ const handleRemoveMerchant =async()=>{
           >
             {remove}
           </button>
-          <Link href="#">
+
+          <Link  as={`/admin/merchant-store/${merchantId}`} href="/admin/merchant-store/[id]">
             <a>
               <button className={classes.button}>{store}</button>
             </a>
