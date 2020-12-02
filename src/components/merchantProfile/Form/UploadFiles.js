@@ -21,7 +21,7 @@ const theme = createMuiTheme({
       },
     },
     previewGrid: {
-      marginTop: '30px',
+      // marginTop: '30px',
     },
     MuiDropzoneArea: {
       root: {
@@ -31,6 +31,7 @@ const theme = createMuiTheme({
         backgroundColor: '#f0f0f0',
         width: '184px',
         height: '104px !important',
+        opacity: '0.5',
       },
       text: {
         margin: '18px 0 !important',
@@ -55,13 +56,14 @@ const theme = createMuiTheme({
   },
 });
 
-const UploadFiles = ({ label, hint, setUploadedData}) => {
+const UploadFiles = ({ label, hint, setUploadedData, initialImage }) => {
   const handleChange = (files) => {
     setUploadedData(files[0]);
   };
   const icon = () => <img src="/images/uploadIcon.svg" alt="uploadIcon" />;
   const HandleGetFileAddedMessage = (files) => {
     return `${files} با موفقیت بار گذاری شد`;
+    [];
   };
   const HandleGetFileRemovedMessage = (files) => {
     return `${files} با موفقیت حذف شد`;
@@ -71,13 +73,16 @@ const UploadFiles = ({ label, hint, setUploadedData}) => {
     <>
       <MuiThemeProvider theme={theme}>
         <div className={classes.formControl}>
-          <label>
+          {typeof initialImage === "string"  ?
+          <div className={classes.exImage}>
+            <img src={initialImage} alt=""></img>
+          </div> : null}
+         <label>
             {label} <span style={{ color: 'red !important' }}>*</span>
           </label>
           <div className={classes.uploadContainer}>
             <DropzoneArea
               showPreviewsInDropzone={true}
-              // showPreviews={true}
               variant="default"
               previewText=""
               previewGridClasses={{ container: 'previewGrid' }}
@@ -89,6 +94,7 @@ const UploadFiles = ({ label, hint, setUploadedData}) => {
               Icon={icon}
               getFileAddedMessage={HandleGetFileAddedMessage}
               getFileRemovedMessage={HandleGetFileRemovedMessage}
+              initialFiles={initialImage ? [initialImage] : null}
             />
           </div>
         </div>

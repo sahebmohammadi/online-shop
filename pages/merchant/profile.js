@@ -47,12 +47,13 @@ const Profile = () => {
       const { data: responseData } = await getMerchantData(token);
       const { user } = responseData.data;
       const { profile, email, id: userId } = user;
+      // console.log('profile',profile);
       const {
         name = '',
         family = '',
         phone = '',
         birthday = '',
-        gender = '',
+        gender = '1',
         national_code: nationalCode = '',
         tel = '',
         status = 0,
@@ -60,8 +61,8 @@ const Profile = () => {
         profile_image: profileImage = '',
         business_name: businessName = '',
         business_code: businessCode = '',
-        type: merchantType = '',
-        vat_license: vatLicense = '',
+        type: merchantType = '0',
+        vat_license: vatLicense = '0',
         license_image: licenseImage = '',
         address = ' ',
       } = profile || {};
@@ -72,7 +73,7 @@ const Profile = () => {
         email,
         phone,
         birthday,
-        gender,
+        gender ,
         nationalCode,
         tel,
         status,

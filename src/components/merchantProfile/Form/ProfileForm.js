@@ -19,16 +19,16 @@ const radioOptions = [
   { key: 'خانم', value: '2' },
 ];
 const ProfileForm = ({ setMerchantProfileData, merchantProfileData }) => {
-   // ?
-   useEffect(() => {
+  // ?
+  useEffect(() => {
     setMerchantProfileData(merchantProfileData);
-  }, []);
+  }, [merchantProfileData]);
   // PROPS
   const {
     email,
     name = '',
     family = '',
-    gender,
+    gender = '1',
     nationalCode = 'saheb',
     tel = '',
     address: addressObject = '',
@@ -40,14 +40,15 @@ const ProfileForm = ({ setMerchantProfileData, merchantProfileData }) => {
   } = merchantProfileData || {};
   const { address = '', postal_code: postalCode = '', city: cityObject } =
     addressObject || {};
-  const { state_id: stateId, id: cityId = '', name: cityName = '' } = cityObject || {};
-
+  const { state_id: stateId, id: ExCityId = '', name: defaultCityName = '' } = cityObject || {};
+  useEffect(() => {
+    setCity(ExCityId);
+  }, [cityObject]);
   // STATES
   const [birthday, setBirthday] = useState(ExBirthday);
-  const [city, setCity] = useState(ExCity);
+  const [city, setCity] = useState(ExCityId);
   const [profileImage, setProfileImage] = useState(ExProfileImage);
   const [nationalCardImage, setNationalCardImage] = useState(ExNationalCardImage);
-
   // ! COMPONENT WILL UNMOUNT
   useEffect(() => {
     saveMerchantData();
@@ -58,7 +59,7 @@ const ProfileForm = ({ setMerchantProfileData, merchantProfileData }) => {
   const saveMerchantData = () => {
     const allValues = {
       birthday: birthday ? birthday : ExBirthday,
-      city: city ? city : ExCity,
+      city: city ? city : ExCityId,
       nationalCardImage: nationalCardImage ? nationalCardImage : ExNationalCardImage,
       profileImage: profileImage ? profileImage : ExProfileImage,
     };
@@ -70,7 +71,7 @@ const ProfileForm = ({ setMerchantProfileData, merchantProfileData }) => {
   const initialValues = {
     name: name,
     family: family,
-    gender: gender == '2' ? '2' : '1',
+    gender: gender ? gender : '1',
     nationalCode: nationalCode,
     tel: tel,
     address: address,
@@ -95,7 +96,7 @@ const ProfileForm = ({ setMerchantProfileData, merchantProfileData }) => {
     address: Yup.string().required(error.address),
   });
   // ? CUSTOM HANDLERS
-    const handleChange = (event, setFieldValue, setFieldTouched) => {
+  const handleChange = (event, setFieldValue, setFieldTouched) => {
     const value = event.target.value;
     const name = event.target.name;
     setMerchantProfileData({ ...merchantProfileData, [event.target.name]: value });
@@ -112,7 +113,6 @@ const ProfileForm = ({ setMerchantProfileData, merchantProfileData }) => {
         enableReinitialize={true}
       >
         {(formik) => {
-          // console.log('formik values', formik.values);
           return (
             <Form>
               <Grid item container xs={12}>
@@ -188,11 +188,13 @@ const ProfileForm = ({ setMerchantProfileData, merchantProfileData }) => {
                       label={merchantForm.profileImage}
                       hint={merchantForm.hintProfileImage}
                       setUploadedData={setProfileImage}
+                      initialImage={ExProfileImage}
                     />
                     <UploadFiles
                       label={merchantForm.license}
                       hint={merchantForm.hintLicense}
                       setUploadedData={setNationalCardImage}
+                      initialImage={ExNationalCardImage}
                     />
                   </div>
                 </Grid>
@@ -232,6 +234,8 @@ const ProfileForm = ({ setMerchantProfileData, merchantProfileData }) => {
                     provinceLabel={merchantForm.province}
                     setCity={setCity}
                     defaultProvince={stateId}
+                    // defaultCity={{ label: cityName, value: city }}
+                    defaultCityId={ExCityId}
                   />
                 </Grid>
                 <Grid item xs={12}>

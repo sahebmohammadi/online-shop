@@ -10,6 +10,7 @@ const SelectProvinceCity = ({
   cityLabel,
   provinceLabel,
   defaultProvince,
+  defaultCityId,
 }) => {
   const [selectStates, setSelectStates] = useState([]);
   const [selectedState, setSelectedState] = useState({});
@@ -19,7 +20,33 @@ const SelectProvinceCity = ({
 
   useEffect(() => {
     geState();
-  }, [defaultProvince]);
+    getDefaultCity(defaultProvince);
+  }, [defaultProvince, defaultCityId]);
+  // ? realize default city
+  const getDefaultCity = async (id) => {
+    if (id) {
+      try {
+        const res = await axios.get(`${process.env.apiUrl}/city/get?state_id=${id}`);
+        const { data: cityData } = res.data;
+        const { city } = cityData;
+        const options = city.map((d) => ({
+          value: d.id,
+          label: d.name,
+        }));
+        setSelectCities(options);
+        if (defaultCityId) {
+          const ExCity = options.find(({ value }) => value === defaultCityId);
+          console.log('ex city ...');
+          setSelectedCity({
+            value: defaultCityId,
+            label: ExCity.label,
+          });
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
   useEffect(() => {
     getCity(stateId);
   }, [stateId]);
@@ -39,6 +66,7 @@ const SelectProvinceCity = ({
           value: defaultProvince,
           label: options[defaultProvince - 1].label,
         });
+        setStateId(defaultProvince);
       }
     } catch (error) {
       console.log(error);
@@ -64,12 +92,10 @@ const SelectProvinceCity = ({
 
   const handleChangeState = (e) => {
     setSelectedState({ value: e.value, label: e.label });
-    console.log(e);
-    // setProvince(e);
     setStateId(e.value);
   };
   const handleChangeCity = (e) => {
-    setSelectedCity({ id: e.value, name: e.label });
+    setSelectedCity({ value: e.value, label: e.label });
     setCity(e.value);
   };
 
@@ -92,8 +118,6 @@ const SelectProvinceCity = ({
         <div className={classes.formControl}>
           <label>{provinceLabel}</label>
           <Select
-            // value={selectStates.filter((option) => option.value === 12)}
-            // value={selectStates[13]}
             value={selectedState}
             instanceId={provinceLabel}
             styles={style}
@@ -108,6 +132,7 @@ const SelectProvinceCity = ({
         <div className={classes.formControl}>
           <label>{cityLabel}</label>
           <Select
+            value={selectedCity}
             instanceId={cityLabel}
             styles={style}
             className={classes.select}
