@@ -8,7 +8,7 @@ import styles from '../../../merchantProfile/form/formikContainer.module.scss';
 import DisplayImage from '../../../../common/DisplayImage';
 import { Grid } from '@material-ui/core';
 const ProfileForm = ({ profile }) => {
-  const provinceName = ''
+  const provinceName = '';
   //props :
   const {
     name,

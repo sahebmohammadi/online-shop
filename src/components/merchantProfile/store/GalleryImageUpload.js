@@ -104,7 +104,7 @@ const GalleryImageUpload = ({ label, hint, setUploadedData, gallery }) => {
     <>
       <MuiThemeProvider theme={theme}>
         <div className={classes.formControl}>
-        <label>
+          <label>
             {label} <span style={{ color: 'red !important' }}>*</span>
           </label>
           {/* {typeof initialImage === 'string' ? (
@@ -132,17 +132,17 @@ const GalleryImageUpload = ({ label, hint, setUploadedData, gallery }) => {
               // initialFiles={initialImage ? [initialImage] : null}
             />
           </div>
-         {/* <label></label> */}
+          {/* <label></label> */}
           <div className={classes.container}>
-        {gallery &&
-          gallery.map((item) => {
-            return (
-              <div className={classes.input}>
-                {gallery ? <img src={item.url} /> : null}
-              </div>
-            );
-          })}
-      </div>
+            {gallery &&
+              gallery.map((item) => {
+                return (
+                  <div className={classes.input}>
+                    {gallery ? <img src={item.url} /> : null}
+                  </div>
+                );
+              })}
+          </div>
         </div>
       </MuiThemeProvider>
     </>

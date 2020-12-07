@@ -36,7 +36,7 @@ const BusinessForm = ({ merchantProfileData, setMerchantProfileData }) => {
   const [licenseImage, setLicenseImage] = useState(ExLicenseImage);
   const [storeStatus, setStoreStatus] = useState(0);
 
-  // ! COMPONENT WILL UNMOUNT
+  // ? COMPONENT WILL UNMOUNT
   useEffect(() => {
     saveMerchantData();
     return () => {
@@ -55,9 +55,7 @@ const BusinessForm = ({ merchantProfileData, setMerchantProfileData }) => {
   const initialValues = {
     businessCode: businessCode ? businessCode : '',
     businessName: businessName ? businessName : '',
-    // merchantType: merchantType == '1' ? '1' : '0',
     merchantType: merchantType ? merchantType : '0',
-    // vatLicense: vatLicense == '1' ? '1' : '0',
     vatLicense: vatLicense ? vatLicense : '0',
   };
   //  onSubmit
@@ -74,7 +72,8 @@ const BusinessForm = ({ merchantProfileData, setMerchantProfileData }) => {
   //   ? validation schema
   const validationSchema = Yup.object({
     merchantType: Yup.string().required(error.merchantType),
-    businessName: Yup.string().required(error.businessName),
+    businessCode: Yup.string().required(error.businessCode).nullable(),
+    businessName: Yup.string().required(error.businessName).nullable(),
     vatLicense: Yup.string().required(error.vatLicense),
   });
 
@@ -95,14 +94,14 @@ const BusinessForm = ({ merchantProfileData, setMerchantProfileData }) => {
         enableReinitialize={true}
       >
         {(formik) => {
-      //  console.log(formik.values);
+          //  console.log(formik.values);
           return (
             <Form>
               <Grid item container xs={12}>
                 <p className={styles.formHint}> {businessForm.businessInfo}</p>
                 <Grid item xs={12} md={6}>
                   <div className={styles.inputGroup}>
-                    <StatusCheck status={storeStatus} />
+                    {/* <StatusCheck status={storeStatus} /> */}
                     <FormikControl
                       control="input"
                       type="text"
@@ -156,7 +155,7 @@ const BusinessForm = ({ merchantProfileData, setMerchantProfileData }) => {
                 </Grid>
 
                 <div className={styles.buttonGroup}>
-                  <button
+                  {/* <button
                     type="button"
                     className={styles.submit}
                     disabled={!isSubmitted}
@@ -165,7 +164,7 @@ const BusinessForm = ({ merchantProfileData, setMerchantProfileData }) => {
                     }}
                   >
                     {businessForm.edit}
-                  </button>
+                  </button> */}
                   <button
                     className={styles.submit}
                     disabled={!formik.isValid || isSubmitted || !licenseImage}

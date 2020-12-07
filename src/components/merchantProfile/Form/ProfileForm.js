@@ -16,10 +16,16 @@ const radioOptions = [
   { key: 'مرد', value: '1' },
   { key: 'خانم', value: '2' },
 ];
-const ProfileForm = ({ setMerchantProfileData, merchantProfileData }) => {
-  // ?
+const ProfileForm = ({
+  setMerchantProfileData,
+  merchantProfileData,
+  setIsMerchantProfileData,
+}) => {
+  // ? update state based on props :
   useEffect(() => {
     setMerchantProfileData(merchantProfileData);
+    setProfileImage(ExProfileImage);
+    setNationalCardImage(ExNationalCardImage);
   }, [merchantProfileData]);
   // PROPS
   const {
@@ -40,14 +46,28 @@ const ProfileForm = ({ setMerchantProfileData, merchantProfileData }) => {
     addressObject || {};
   const { state_id: stateId, id: ExCityId = '', name: defaultCityName = '' } =
     cityObject || {};
+  // ? update city state based on server response
   useEffect(() => {
     setCity(ExCityId);
   }, [cityObject]);
   // STATES
+  const [isFormikValid, setIsFormikValid] = useState(false);
   const [birthday, setBirthday] = useState(ExBirthday);
   const [city, setCity] = useState(ExCityId);
   const [profileImage, setProfileImage] = useState(ExProfileImage);
   const [nationalCardImage, setNationalCardImage] = useState(ExNationalCardImage);
+
+  //?  check merchant profile form data whethere is filled or not
+  const checkValuss = () => {
+    if (isFormikValid && city && birthday && profileImage && nationalCardImage) {
+      setIsMerchantProfileData(true);
+    } else {
+      setIsMerchantProfileData(false);
+    }
+  };
+  useEffect(() => {
+    checkValuss();
+  }, [isFormikValid, city, birthday, profileImage, nationalCardImage]);
   // ! COMPONENT WILL UNMOUNT
   useEffect(() => {
     saveMerchantData();
@@ -79,20 +99,21 @@ const ProfileForm = ({ setMerchantProfileData, merchantProfileData }) => {
   };
   //  validation schema
   const validationSchema = Yup.object({
-    name: Yup.string().required(error.name),
-    family: Yup.string().required(error.family),
+    name: Yup.string().required(error.name).nullable(),
+    family: Yup.string().required(error.family).nullable(),
     gender: Yup.string().required(error.gender),
     nationalCode: Yup.string()
       .required(error.nationalCode)
-      .matches(/^[0-9]{10}$/, `${error.nationalCodeLength}`),
+      .matches(/^[0-9]{10}$/, `${error.nationalCodeLength}`)
+      .nullable(),
     tel: Yup.string()
       .required(error.tel)
-      .matches(/^[0-9]{8}$/, `${error.telLength}`),
+      .matches(/^[0-9]{8}$/, `${error.telLength}`).nullable(),
     phone: Yup.string()
       .required(error.phone)
-      .matches(/^[0-9]{11}$/, `${error.phoneLength}`),
-    postalCode: Yup.string().required(error.postalCode),
-    address: Yup.string().required(error.address),
+      .matches(/^[0-9]{11}$/, `${error.phoneLength}`).nullable(),
+    postalCode: Yup.string().required(error.postalCode).nullable(),
+    address: Yup.string().required(error.address).nullable(),
   });
   // ? CUSTOM HANDLERS
   const handleChange = (event, setFieldValue, setFieldTouched) => {
@@ -104,9 +125,11 @@ const ProfileForm = ({ setMerchantProfileData, merchantProfileData }) => {
 
   return (
     <>
-      <Grid container xs={12}>
-        <ToastHint />
-      </Grid>
+      {!addressObject && (
+        <Grid item xs={12}>
+          <ToastHint />
+        </Grid>
+      )}
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
@@ -115,6 +138,7 @@ const ProfileForm = ({ setMerchantProfileData, merchantProfileData }) => {
         enableReinitialize={true}
       >
         {(formik) => {
+          setIsFormikValid(formik.isValid);
           return (
             <Form>
               <Grid item container xs={12}>
