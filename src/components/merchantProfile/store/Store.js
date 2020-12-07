@@ -57,10 +57,10 @@ const Store = () => {
     try {
       const token = localStorage.getItem('token');
       const { data: responseData } = await getTypes(token);
-      const { type } = responseData.data;
-      const options = type.map((tag) => ({
-        value: tag.id,
-        label: tag.title,
+      const { user } = responseData.data;
+      const options = user.map((item) => ({
+        value: item.id,
+        label: item.title,
       }));
       setTypeOptions(options);
     } catch (error) {}
@@ -99,7 +99,7 @@ const Store = () => {
     catalogue: exCatalog,
     types: exTypes = '',
     // tags = '',
-    gallery: exGallery,
+    gallery: exGallery =[],
   } = store || {};
   const [storeImage, setStoreImage] = useState(exCover);
   const [logoImage, setLogoImage] = useState(exLogo);
@@ -109,7 +109,6 @@ const Store = () => {
   const [token, setToken] = useState();
   // ?
   useEffect(() => {
-    // setStore();
     setStoreImage(exCover);
     setLogoImage(exLogo);
     setCatalogImage(exCatalog);
@@ -127,9 +126,7 @@ const Store = () => {
   const onSubmit = async (values) => {
     setIsSubmitted(!isSubmitted);
     let tagsId = tags.map((a) => a.value);
-    // let tagsId = [1,2];
-    let storeTypesId = [1];
-    // let storeTypesId = storeTypes.map(a => a.value);
+    let storeTypesId = storeTypes.map(a => a.value);
     const allValues = {
       ...values,
       tagsId,
@@ -141,7 +138,6 @@ const Store = () => {
       catalogImage,
       galleryImage,
     };
-    console.log(allValues);
     // CALL THE SERVER
     try {
       const response = await addMerchantStore(allValues);

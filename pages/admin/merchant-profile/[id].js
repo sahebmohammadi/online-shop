@@ -9,10 +9,12 @@ import Stepper from 'src/common/Stepper';
 import RedirectUser from 'src/utils/RedirectUser';
 import { getOneMerchant } from 'services/adminGetOneMerchantService';
 import MerchantManagmentHeader from 'src/components/admin/merchantManagment/merchantDetail/MerchantManagmentHeader';
+import { Typography } from '@material-ui/core';
 const MerchantDetail = () => {
   // STATE
   const [profile, setProfile] = useState(null);
   const [activeStep, setActiveStep] = useState(0);
+  const [notProfile, setNotProfile] = useState(false);
   const steps = ['اطلاعات کاربری', 'اطلاعات تجاری'];
   // Route :
   const router = useRouter();
@@ -30,21 +32,38 @@ const MerchantDetail = () => {
       const { user } = responseData.data;
       const { profile } = user;
       setProfile(profile);
+      setNotProfile(profile ? false : true);
     } catch (error) {}
+  };
+  const messageStyle = {
+    width: '320px',
+    fontSize: '16px',
+    fontFamily: 'Shabnam',
+    margin: '10px auto',
+    color: 'red',
+  };
+  const notFoundProfile = () => {
+    return <p style={messageStyle}>اطلاعات کاربری و تجاری هنوز تکمیل نشده است</p>;
   };
   return (
     <Layout>
       <Content>
         <MerchantManagment>
-          <MerchantManagmentHeader merchantId = {router.query.id} />
+          <MerchantManagmentHeader merchantId={router.query.id} />
         </MerchantManagment>
         <MerchantManagment>
-          <Stepper activeStep={activeStep} setActiveStep={setActiveStep} steps={steps}>
+          <Stepper
+            activeStep={activeStep}
+            setActiveStep={setActiveStep}
+            steps={steps}
+            isNextStep={true}
+          >
             {activeStep == 0 && profile ? (
               <ProfileForm profile={profile} />
             ) : (
               profile && <BusinessForm profile={profile} />
             )}
+            {notProfile ? notFoundProfile() : null}
           </Stepper>
         </MerchantManagment>
       </Content>

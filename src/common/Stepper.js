@@ -2,12 +2,12 @@ import { useState } from 'react';
 import { makeStyles, MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
-import StepButton from '@material-ui/core/StepButton';
+import StepLabel from '@material-ui/core/StepLabel';
 import Button from '@material-ui/core/Button';
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
-    paddingBottom  :'15px'
+    paddingBottom: '15px',
   },
   button: {
     marginRight: theme.spacing(1),
@@ -22,8 +22,14 @@ const useStyles = makeStyles((theme) => ({
   stepControl: {
     display: 'flex',
     marginTop: '25px',
-    justifyContent: 'center',
-    width: '58vw',
+    justifyContent: 'flex-end',
+    width: '57vw',
+  },
+  backButton: {
+    fontFamily: 'Shabnam',
+  },
+  nextButton: {
+    fontFamily: 'Shabnam',
   },
 }));
 const theme = createMuiTheme({
@@ -38,7 +44,7 @@ const theme = createMuiTheme({
     },
   },
 });
-const MyStepper = ({ children, activeStep, setActiveStep, steps }) => {
+const MyStepper = ({ children, activeStep, setActiveStep, steps, isNextStep }) => {
   const classes = useStyles();
   const [completed, setCompleted] = useState({});
 
@@ -63,42 +69,34 @@ const MyStepper = ({ children, activeStep, setActiveStep, steps }) => {
         >
           {steps.map((label, index) => (
             <Step key={label}>
-              <StepButton onClick={handleStep(index)} completed={completed[index]}>
-                {label}
-              </StepButton>
+              <StepLabel completed={completed[index]}>{label}</StepLabel>
             </Step>
           ))}
         </Stepper>
         {children}
         <div className={classes.stepControl}>
-          {activeStep === steps.length ? (
-            <div>
-              <Button onClick={handleReset}>Reset</Button>
-            </div>
-          ) : (
-            <div>
-              <div>
-                <Button
-                  style={{ marginLeft: '20px' }}
-                  disabled={activeStep === 0}
-                  onClick={handleBack}
-                  className={classes.backButton}
-                >
-                  بازگشت
-                </Button>
-                {
-                  <Button
-                    disabled={activeStep === steps.length - 1}
-                    variant="contained"
-                    color="primary"
-                    onClick={handleNext}
-                  >
-                    بعدی
-                  </Button>
-                }
-              </div>
-            </div>
-          )}
+          {activeStep !== 0 ? (
+            <Button
+              variant="outlined"
+              style={{ marginLeft: '20px' }}
+              // disabled={activeStep === 0}
+              onClick={handleBack}
+              className={classes.backButton}
+            >
+              بازگشت
+            </Button>
+          ) : null}
+          {activeStep == 0 && isNextStep ? (
+            <Button
+              // disabled={activeStep === steps.length - 1 || !isNextStep}
+              variant="contained"
+              color="primary"
+              onClick={handleNext}
+              className={classes.nextButton}
+            >
+              بعدی
+            </Button>
+          ) : null}
         </div>
       </div>
     </MuiThemeProvider>

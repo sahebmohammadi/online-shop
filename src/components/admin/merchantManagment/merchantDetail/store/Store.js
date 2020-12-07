@@ -68,6 +68,7 @@ const Store = ({ store }) => {
 
   return (
     <div style={{ padding: '22px 22px' }}>
+      {!store ? <Typography>پروفایل کاربری هنوز تایید نشده است</Typography> : null}
       <Formik initialValues={initialValues} enableReinitialize={true}>
         {(formik) => {
           // console.log(formik.values);

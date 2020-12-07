@@ -7,7 +7,7 @@ import FormikControl from '../../../merchantProfile/form/FormikControl';
 import StatusCheck from '../../../../common/StatusCheck';
 import { getMerchantData } from 'services/getMerchantService';
 import DisplayImage from '../../../../common/DisplayImage';
-import { Typography } from '@material-ui/core';
+
 const BusinessForm = ({ profile }) => {
   const {
     business_name : businessName,
@@ -17,9 +17,6 @@ const BusinessForm = ({ profile }) => {
     license_image,
     status: storeStatus = 0,
   } = profile || {};
-  // states :
-  // const [storeStatus, setStoreStatus] = useState(0);
-  //usEffect : decode token to get user Id
 
   //  Form Contants :
   const { businessForm } = constants.merchantBusinessForm;
@@ -43,7 +40,6 @@ const BusinessForm = ({ profile }) => {
 
   return (
     <div style={{ paddingRight: '62px' }}>
-      {!profile ? <Typography>پروفایل کاربری هنوز تایید نشده است</Typography> : null}
       <Formik initialValues={initialValues}>
         {(formik) => (
           <Form>
@@ -51,7 +47,7 @@ const BusinessForm = ({ profile }) => {
               <p className={styles.formHint}> {businessForm.businessInfo}</p>
               <Grid item xs={12} md={6}>
                 <div className={styles.inputGroup}>
-                  <StatusCheck status={storeStatus} />
+                  {/* <StatusCheck status={storeStatus} /> */}
                   <FormikControl
                     control="input"
                     type="text"

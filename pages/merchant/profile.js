@@ -30,6 +30,7 @@ const Profile = () => {
     address: ' ',
   });
   const [activeStep, setActiveStep] = useState(0);
+  const [isMerchantProfileData, setIsMerchantProfileData] = useState(false);
 
   // Route :
   const router = useRouter();
@@ -64,7 +65,7 @@ const Profile = () => {
         type: merchantType = '0',
         vat_license: vatLicense = '0',
         license_image: licenseImage = '',
-        address = ' ',
+        address = '',
       } = profile || {};
       setMerchantProfileData({
         name,
@@ -73,7 +74,7 @@ const Profile = () => {
         email,
         phone,
         birthday,
-        gender ,
+        gender,
         nationalCode,
         tel,
         status,
@@ -93,11 +94,17 @@ const Profile = () => {
   return (
     <Layout>
       <Content>
-        <Stepper activeStep={activeStep} setActiveStep={setActiveStep} steps={steps}>
+        <Stepper
+          activeStep={activeStep}
+          setActiveStep={setActiveStep}
+          steps={steps}
+          isNextStep={isMerchantProfileData}
+        >
           {activeStep == 0 ? (
             <ProfileForm
               setMerchantProfileData={setMerchantProfileData}
               merchantProfileData={merchantProfileData}
+              setIsMerchantProfileData={setIsMerchantProfileData}
             />
           ) : (
             <BusinessForm

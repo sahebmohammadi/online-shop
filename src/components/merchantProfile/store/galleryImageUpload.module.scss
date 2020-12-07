@@ -21,11 +21,11 @@
     flex-wrap: wrap;
     width: 97%;
     justify-content: space-between;
-    margin-right: 115px;
+    margin: 15px 122px 0 0;
     .input {
       margin: 0 20px 30px 0;
       box-sizing: border-box;
-      width: 231px;
+      width: 184px;
       height: 130px;
       img {
         border-radius: 10px;
@@ -34,21 +34,6 @@
       }
     }
   }
-  // .exImage {
-  //   width: 0;
-  //   height: 0;
-  //   margin: 0;
-  //   position: absolute;
-  //   top: 2px;
-  //   right: 145px;
-  //   opacity: 0.9;
-  //   img {
-  //     border-radius: 10px;
-  //     width: 184px;
-  //     height: 100px;
-  //   }
-  // }
-
   .uploadContainer {
     margin-right: 30px;
     width: 200px;

@@ -1,0 +1,14 @@
+div.root {
+  width: 58vw;
+  display: flex;
+  justify-content: space-between;
+  background-color: #efefef;
+  align-items: center;
+  border-radius: 10px;
+  padding: 2px 20px;
+  div.message {
+    color: #000;
+    font-size: 12px;
+    font-family: 'Shabnam';
+  }
+}
