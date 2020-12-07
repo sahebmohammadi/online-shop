@@ -6,7 +6,7 @@ import axios from 'axios';
 import { Button } from '@material-ui/core';
 import { createAttribute } from 'services/createAttributeService';
 import classes from 'src/components/admin/attributes/attributes.module.scss';
-import toast from 'react-toastify/dist/react-toastify.cjs.production.min';
+import { toast } from 'react-toastify';
 
 const CreateForm = () => {
   const router = useRouter();
@@ -89,15 +89,15 @@ const CreateForm = () => {
     try {
       const response = await createAttribute(allValues);
       const { data } = response;
-      toast.success(data.message);
-      if (data.message === "success") {
-        router.push({
+      await toast.success(data.message);
+      if (await data.message === "success") {
+        await router.push({
           pathname: "/admin/attributes",
         });
       }
     } catch (err) {
       // Cannot read property 'error' of undefined. solve this problem if you can :) thank you
-      toast.error(err?.message);
+      await toast.error(err?.message);
     }
   };
 
