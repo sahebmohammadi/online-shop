@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Formik, Field, Form, FieldArray } from 'formik';
+import { useRouter } from 'next/router';
+import { Formik, Field, Form } from 'formik';
 import Select from 'react-select';
 import axios from 'axios';
 import useLocalStorage from 'src/utils/UseLocalStorage';
@@ -12,18 +13,20 @@ import ColorizeOutlinedIcon from '@material-ui/icons/ColorizeOutlined';
 import PublishOutlinedIcon from '@material-ui/icons/PublishOutlined';
 import CloseIcon from '@material-ui/icons/Close';
 import { ChromePicker } from 'react-color';
+import { toast } from 'react-toastify';
 import { addAttributeValue } from 'services/addAttributeValueSevice';
 import classes from 'src/components/admin/attributes/attributes.module.scss';
 
 const EditForm = (data) => {
+  const router = useRouter();
+  const { id } = router.query;
   const [attributeType, setAttributeType] = useState(null);
+  const [attributeValues, setAttributeValues] = useState(null);
   const [types, setTypes] = useState(null);
-  const [units, setUnits] = useState(null);
   const [displayColorPicker, setDisplayColorPicker] = useState(false);
-  const [colorName, setColorName] = useState('');
   const [colorValue, setColorValue] = useState('');
   const [colorType, setColorType] = useState('color');
-  const [image, setImage] = useState('');
+  const [image_id, setImageId] = useState(null);
   const [editedImage, setEditedImage] = useState('');
   const [editedColorValue, setEditedColorValue] = useState('');
   const [uploadPercentage, setUploadPercentage] = useState(0);
@@ -41,7 +44,18 @@ const EditForm = (data) => {
   });
 
   let attributeInfo;
+  let all_attribute_values;
   let type_options = [];
+
+  const getAttributeValues = async () => {
+    try {
+      const res = await axios.get(`${process.env.apiUrl}/attribute-values`);
+      const stateData = res.data.data.attribute_values;
+      setAttributeValues(stateData);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const getTypes = async () => {
     try {
@@ -54,8 +68,18 @@ const EditForm = (data) => {
   };
 
   useEffect(() => {
+    getAttributeValues();
     getTypes();
   }, []);
+
+  function filter_attrs(attr) {
+    return attr.parent.id === Number(id);
+  }
+
+  if (attributeValues !== undefined && attributeValues !== null) {
+    let filtered_data = attributeValues.filter(filter_attrs);
+    all_attribute_values = filtered_data;
+  }
 
   if (types !== undefined && types !== null) {
     types.map((item) => {
@@ -118,7 +142,7 @@ const EditForm = (data) => {
     }
 
     axios.post(`${process.env.apiUrl}/uploader/image`, data, options).then(res => {
-      setImage(res.data.data.image.url);
+      setImageId(res.data.data.image.id);
       setColorValue(res.data.data.image.url);
       setUploadPercentage(100);
       setTimeout(() => {
@@ -159,8 +183,7 @@ const EditForm = (data) => {
   const initialValues = {
     name: '',
     main_attribute_id: attributeInfo !== undefined && attributeInfo !== null ? Number(attributeInfo.id) : '',
-    value: '',
-    image_id: '',
+    value: ''
   };
 
   const onSubmit = async (values) => {
@@ -170,14 +193,18 @@ const EditForm = (data) => {
 
     const allValues = {
       ...values,
+      image_id,
       token
     };
     // CALL THE SERVER
     try {
       const response = await addAttributeValue(allValues);
       const { data } = response;
-      toast.success(data.message);
-    } catch (ex) {}
+      await getAttributeValues();
+      await toast.success(data.message);
+    } catch (err) {
+      await toast.error(err?.message);
+    }
   };
 
   const editModalCloseHandler = () => {
@@ -207,65 +234,45 @@ const EditForm = (data) => {
                   <Field readOnly value={attributeInfo !== undefined && attributeInfo !== null ? attributeInfo.unit.name : ''} id="type" name="type" className={classes.input} placeholder="" />
                 </div>
               ) : (
-                <React.Fragment />
+                <div />
               )
             }
           </div>
           <div className={classes.attributeForm}>
             {
               attributeInfo !== undefined && attributeInfo !== null && attributeInfo.type.name === 'کشویی' ? ( // Dropdown Form
-                <FieldArray
-                  name="dropdown"
-                  render={arrayHelpers => (
-                    <div>
-                      {
-                        props.values.dropdown &&
-                        props.values.dropdown.length > 0 &&
-                        props.values.dropdown.map((dropdown, index) => (
-                          <div className={classes.dropdownForm} key={index}>
-                            <label className={classes.label}>مقدار {index + 1}</label>
-                            <Field
-                              name={`dropdown.${index}`}
-                              value={props.values.value}
-                              onChange={e => {
-                                return false;
-                              }}
-                            />
-                            <Button
-                              className={classes.deleteButton}
-                              variant="contained"
-                              color="secondary"
-                              type="button"
-                              onClick={() => arrayHelpers.remove(index)}
-                            >
-                              حذف
-                            </Button>
-                            <Button
-                              className={classes.registerButton}
-                              variant="contained"
-                              color="primary"
-                              type="submit"
-                              onClick={() => {
-                                return false
-                              }}
-                            >
-                              ثبت
-                            </Button>
-                          </div>
-                        ))}
-
-                      <Button
-                        className={classes.addInputButton}
-                        type="button"
-                        onClick={() => {
-                          arrayHelpers.push('');
-                        }}
-                      >
-                        + اضافه کردن مقدار جدید
-                      </Button>
-                    </div>
-                  )}
-                />
+                <div>
+                  <div className={classes.dropdownForm}>
+                    <label className={classes.label}>مقدار</label>
+                    <input
+                      value={props.values.name}
+                      onChange={e => {
+                        props.setFieldValue('name', e.target.value);
+                        if (attributeInfo !== undefined && attributeInfo !== null) {
+                          props.setFieldValue('main_attribute_id', Number(attributeInfo.id))
+                        }
+                      }}
+                    />
+                    <Button
+                      className={props.values.name === "" ? classes.registerButtonDisabled : classes.registerButton}
+                      variant="contained"
+                      color="primary"
+                      type="submit"
+                    >
+                      ثبت
+                    </Button>
+                  </div>
+                  {
+                    all_attribute_values &&
+                    all_attribute_values.length > 0 &&
+                    all_attribute_values.map((item, index) => (
+                      <ul>
+                        <li key={index}>
+                          {item.name}
+                        </li>
+                      </ul>
+                    ))}
+                </div>
               ) : attributeInfo !== undefined && attributeInfo !== null && attributeInfo.type.name === 'رنگ' ? ( // Color Form
                 <React.Fragment>
                   <div className={classes.colorForm}>
@@ -317,13 +324,7 @@ const EditForm = (data) => {
                           <label className={classes.label}>مقدار</label>
                           <input
                             name={`image_id`}
-                            value={image !== '' ? image : props.values.image_id}
-                            onChange={e => {
-                              props.setFieldValue('image_id', e.target.value);
-                              if (attributeInfo !== undefined && attributeInfo !== null) {
-                                props.setFieldValue('main_attribute_id', Number(attributeInfo.id))
-                              }
-                            }}
+                            value={colorValue}
                           />
                         </div>
                       )
@@ -401,9 +402,9 @@ const EditForm = (data) => {
                   </div>
                   <ul className={classes.colorList}>
                     {
-                      props.values.color &&
-                      props.values.color.length > 0 &&
-                      props.values.color.map((color, index) => {
+                      all_attribute_values &&
+                      all_attribute_values.length > 0 &&
+                      all_attribute_values.map((color, index) => {
                         let colorData = JSON.stringify(color);
                         return (
                         <li key={index}>
@@ -412,7 +413,7 @@ const EditForm = (data) => {
                           </div>
                           <div>
                             {
-                              color.type === 'color' ? (
+                              color.value !== null ? (
                                 <p>
                                   {color.value}
                                 </p>
@@ -424,10 +425,10 @@ const EditForm = (data) => {
                             }
                           </div>
                           {
-                            color.type === 'color' ? (
+                            color.value !== null ? (
                               <span style={{ backgroundColor: `${color.value}`}} />
                             ) : (
-                              <img src={image} />
+                              <img src={color.image_id} />
                             )
                           }
                           <Button
@@ -436,10 +437,11 @@ const EditForm = (data) => {
                             type="button"
                             data-color={colorData}
                             onClick={(e) => {
-                              let obj = JSON.parse(e.target.getAttribute('data-color'));
-                              obj.index = index;
-                              setSelectedColor(obj);
-                              setShowEditModal(true);
+                              // opens edit modal but for now its commented because update api for attributes is not ready
+                              // let obj = JSON.parse(e.target.getAttribute('data-color'));
+                              // obj.index = index;
+                              // setSelectedColor(obj);
+                              // setShowEditModal(true);
                             }}
                           >
                             ویرایش
@@ -450,9 +452,10 @@ const EditForm = (data) => {
                             color="secondary"
                             type="button"
                             onClick={() => {
-                              const newArray = [...props.values.color];
-                              newArray.splice(index, 1);
-                              props.setFieldValue('color', newArray);
+                              // deletes the attribute but for now its commented because delete api for attributes is not ready
+                              // const newArray = [...props.values.color];
+                              // newArray.splice(index, 1);
+                              // props.setFieldValue('color', newArray);
                             }}
                           >
                             حذف
@@ -601,7 +604,7 @@ const EditForm = (data) => {
             }
           </div>
           <Button
-            className={ props.values.units_id === "" ? classes.submitButtonHidden : classes.submitButton}
+            className={ attributeInfo !== undefined && attributeInfo !== null && attributeInfo.type.name !== "مقدار" ? classes.submitButtonHidden : classes.submitButton}
             variant="contained"
             color="primary"
             type="submit"
