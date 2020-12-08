@@ -428,7 +428,7 @@ const EditForm = (data) => {
                             color.value !== null ? (
                               <span style={{ backgroundColor: `${color.value}`}} />
                             ) : (
-                              <img src={color.image_id} />
+                              <img src={color.image.url} />
                             )
                           }
                           <Button
