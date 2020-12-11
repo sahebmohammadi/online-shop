@@ -122,6 +122,8 @@ export const merchantBusinessForm = {
 
 export const merchantDetail = {
   header: {
+    profile: 'پروفایل',
+    storeSelectLabel: 'تغییر وضعیت فروشگاه',
     title: 'مدیریت پیشه وران',
     selectLabel: 'تغییر وضعیت پروفایل پیشه ور',
     pending: 'در انتظار تایید',

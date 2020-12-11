@@ -5,8 +5,9 @@ import MerchantManagment from 'src/components/admin/merchantManagment/MerchantMa
 import Content from 'src/components/admin/merchantManagment/Content';
 import RedirectUser from 'src/utils/RedirectUser';
 import { getOneMerchant } from 'services/adminGetOneMerchantService';
-import MerchantManagmentHeader from 'src/components/admin/merchantManagment/merchantDetail/MerchantManagmentHeader';
+import StoreManagmentHeader from 'src/components/admin/merchantManagment/MerchantDetail/store/StoreManagmentHeader';
 import Store from 'src/components/admin/merchantManagment/merchantDetail/store/Store';
+
 const MerchantDetail = () => {
   // STATE
   const [store, setStore] = useState(null);
@@ -26,6 +27,7 @@ const MerchantDetail = () => {
       const { data: responseData } = await getOneMerchant(token, id);
       const { user } = responseData.data;
       const { store } = user;
+      console.log(store);
       setStore(store);
       setNotStore(store ? false : true);
     } catch (error) {}
@@ -38,13 +40,13 @@ const MerchantDetail = () => {
     color: 'red',
   };
   const notFoundStore = () => {
-   return <p style={messageStyle}>فروشگاه هنوز ایجاد نگردیده است</p>;
+    return <p style={messageStyle}>فروشگاه هنوز ایجاد نگردیده است</p>;
   };
   return (
     <Layout>
       <Content>
         <MerchantManagment>
-          <MerchantManagmentHeader merchantId={router.query.id} />
+          <StoreManagmentHeader merchantId={router.query.id} />
         </MerchantManagment>
         <MerchantManagment>
           {store ? <Store store={store} /> : null}
