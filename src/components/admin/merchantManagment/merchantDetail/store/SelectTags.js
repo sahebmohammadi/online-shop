@@ -4,12 +4,15 @@ import classes from './selectTags.module.scss';
 import Grid from '@material-ui/core/Grid';
 import clx from 'classnames';
 
-const SelectComponent = ({label, options,defaultValues = null }) => {
+const SelectComponent = ({ label, defaultValues = null }) => {
   const handleChange = (e) => {
     // setSelectedValue(e);
     // console.log(e);
   };
-
+  const defaultTags = defaultValues.map((d) => ({
+    value: d.id,
+    label: d.title,
+  }));
   const style = {
     control: (base) => ({
       ...base,
@@ -29,12 +32,12 @@ const SelectComponent = ({label, options,defaultValues = null }) => {
         <div className={classes.formControl}>
           <label>{label}</label>
           <Select
-          value = {defaultValues}
+            value={defaultTags}
             instanceId={label}
             styles={style}
             className={clx(classes.select, 'basic-multi-select')}
             placeholder={label}
-            options={options}
+            // options={}
             onChange={(value) => handleChange(value || [])}
             isMulti
             classNamePrefix="select"

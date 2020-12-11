@@ -8,13 +8,8 @@ import styles from '../../../../merchantProfile/form/formikContainer.module.scss
 import DisplayImage from 'src/common/DisplayImage';
 import CoverDisplayImage from './CoverDisplayImage';
 import GalleryDisplayImage from './GalleryDisplayImage';
+
 //  Form Contants :
-// const myGallery = [
-//   { id: 61, url: 'http://api.decooj.com//storage/gallery/phpPox9ac.png' },
-//   { id: 62, url: 'http://api.decooj.com//storage/gallery/phpAppdB3.png' },
-//   { id: 63, url: 'http://api.decooj.com//storage/gallery/phpEZlD6s.jpg' },
-//   { id: 64, url: 'http://api.decooj.com//storage/gallery/phpyD1QU0.jpg' },
-// ];
 const {
   managment,
   name,
@@ -33,18 +28,7 @@ const {
   error,
 } = constants.merchantStore;
 
-const typeOptions = [
-  { value: 1, label: 'نمایشگاه دار' },
-  { value: 2, label: 'مواد اولیه' },
-  { value: 3, label: ' کوفت' },
-];
-const tagOptions = [
-  { value: 1, label: 'نمایشگاه دار' },
-  { value: 2, label: 'مواد اولیه' },
-  { value: 3, label: ' کوفت' },
-];
 const Store = ({ store }) => {
-  const [sotreTypes, setStoreTypes] = useState(null);
   // props :
   const {
     name: ExName = '',
@@ -96,12 +80,8 @@ const Store = ({ store }) => {
                         disabled={true}
                       />
                     </Grid>
-                    <SelectTags
-                      label={type}
-                      defaultValues={types}
-                      options={typeOptions}
-                    />
-                    <SelectTags defaultValues={tags} label={tag} options={tagOptions} />
+                    <SelectTags label={type} defaultValues={types} />
+                    <SelectTags defaultValues={tags} label={tag} />
                   </div>
                 </Grid>
                 <Grid item container xs={12}>
